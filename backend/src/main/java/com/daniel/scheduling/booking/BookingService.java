@@ -50,6 +50,6 @@ public class BookingService {
                 now
         );
 
-гит        return bookingRepository.saveAndFlush(booking);
+     return bookingRepository.saveAndFlush(booking);
     }
 }
