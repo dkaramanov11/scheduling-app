@@ -1,0 +1,10 @@
+.booking-form {
+    display: grid;
+    gap: 20px;
+    max-width: 480px;
+    margin-top: 24px;
+}
+
+.booking-form h3 {
+    margin: 0;
+}

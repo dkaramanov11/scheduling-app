@@ -1,7 +1,7 @@
 import AvailableTimeSlots from './components/AvailableTimeSlots'
 import CreateTimeSlotForm from './components/CreateTimeSlotForm'
 import { useState } from 'react'
-import './App.css'
+import './styles/App.css'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)

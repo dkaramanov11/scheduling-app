@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getAvailableTimeSlots } from '../services/timeSlotService'
 import BookingForm from './BookingForm'
+import '../styles/AvailableTimeSlots.css'
 
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/Skopje',
