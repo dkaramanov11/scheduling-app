@@ -4,6 +4,7 @@ import AvailableTimeSlots from './components/AvailableTimeSlots'
 import CreateTimeSlotForm from './components/CreateTimeSlotForm'
 import './styles/App.css'
 import Hero from './components/Hero'
+import CoachSection from './components/CoachSection'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)
@@ -23,10 +24,7 @@ function App() {
                     <AvailableTimeSlots key={availabilityVersion} />
                 </div>
 
-                <section className="coach-preview" id="coach">
-                    <h2>Meet your coach</h2>
-                    <p>Coach details coming soon.</p>
-                </section>
+                <CoachSection />
 
                 <CreateTimeSlotForm onTimeSlotCreated={handleTimeSlotCreated} />
             </main>
