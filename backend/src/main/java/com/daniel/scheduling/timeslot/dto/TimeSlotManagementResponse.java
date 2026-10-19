@@ -24,17 +24,22 @@ public record TimeSlotManagementResponse(
         Instant endAt,
         Integer durationMinutes,
         TimeSlotStatus status,
-        Instant cancelledAt
+        Instant cancelledAt,
+        Long bookingId
 ) {
 
-    public static TimeSlotManagementResponse from(TimeSlot timeSlot) {
+    public static TimeSlotManagementResponse from(
+            TimeSlot timeSlot,
+            Long bookingId
+    ) {
         return new TimeSlotManagementResponse(
                 timeSlot.getId(),
                 timeSlot.getStartAt(),
                 timeSlot.getEndAt(),
                 timeSlot.getDurationMinutes(),
                 timeSlot.getStatus(),
-                timeSlot.getCancelledAt()
+                timeSlot.getCancelledAt(),
+                bookingId
         );
     }
 }

@@ -50,4 +50,25 @@ public class TimeSlot {
         status = TimeSlotStatus.BOOKED;
     }
 
+    public void releaseBooking() {
+        if (status != TimeSlotStatus.BOOKED) {
+            throw new IllegalStateException(
+                    "Only booked time slots can be released"
+            );
+        }
+
+        status = TimeSlotStatus.AVAILABLE;
+    }
+
+    public void cancel(Instant cancelledAt) {
+        if (status != TimeSlotStatus.AVAILABLE) {
+            throw new IllegalStateException(
+                    "Only available time slots can be cancelled"
+            );
+        }
+
+        this.status = TimeSlotStatus.CANCELLED;
+        this.cancelledAt = cancelledAt;
+    }
+
 }

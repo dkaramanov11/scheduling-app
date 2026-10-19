@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
 import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -60,4 +62,19 @@ public class TimeSlotController {
         return timeSlotService.findForManagement(status);
     }
 
+    /*
+     * PATCH /api/time-slots/20/cancel
+     *
+     * Removes an available time slot from the public schedule.
+     * Booked time slots must have their booking cancelled first.
+     * Returns 204 No Content on success.
+     */
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(
+            @PathVariable("id") Long id
+    ) {
+        timeSlotService.cancel(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

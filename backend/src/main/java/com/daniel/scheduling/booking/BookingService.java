@@ -65,4 +65,47 @@ public class BookingService {
 
         return bookingRepository.saveAndFlush(booking);
     }
+
+    @Transactional
+    public void cancel(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Booking not found"
+                ));
+
+        TimeSlot timeSlot = timeSlotRepository
+                .findOneById(booking.getTimeSlot().getId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Time slot not found"
+                ));
+
+        // Recheck after acquiring the time slot lock.
+        if (!bookingRepository.existsById(bookingId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Booking not found"
+            );
+        }
+
+        if (!timeSlot.getStartAt().isAfter(Instant.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot cancel a booking for a time slot that has already started"
+            );
+        }
+
+        if (timeSlot.getStatus() != TimeSlotStatus.BOOKED) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Time slot is not booked"
+            );
+        }
+
+        bookingRepository.delete(booking);
+        bookingRepository.flush();
+
+        timeSlot.releaseBooking();
+    }
 }
