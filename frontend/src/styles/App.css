@@ -29,3 +29,21 @@
 #booking > .availability {
   margin-top: 4px;
 }
+
+.manage-view {
+  max-width: 720px;
+  margin: 32px auto 0;
+}
+
+.manage-eyebrow {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.manage-view .availability {
+  margin-top: 0;
+}
