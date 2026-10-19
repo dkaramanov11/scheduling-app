@@ -1,22 +1,63 @@
 .app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 32px;
+  padding: 0 32px 48px;
 }
 
-.app h1 {
+.page-intro {
+  padding-top: 48px;
+}
+
+.page-intro h1 {
   margin: 0 0 16px;
   font-size: 36px;
+  letter-spacing: -1px;
 }
 
-.app > p {
+.page-intro p,
+.coach-preview p {
   margin: 0;
   color: var(--color-muted);
   line-height: 1.6;
 }
 
+.coach-preview {
+  margin-top: 32px;
+  padding-block: 24px;
+}
+
+.coach-preview h2 {
+  margin: 0 0 12px;
+  font-size: 28px;
+  letter-spacing: -0.6px;
+}
+
+#home,
+#training,
+#booking,
+#coach {
+  scroll-margin-top: 100px;
+}
+
+@media (max-width: 760px) {
+  #home,
+  #training,
+  #booking,
+  #coach {
+    scroll-margin-top: 180px;
+  }
+}
+
 @media (max-width: 600px) {
   .app {
-    padding: 24px 16px;
+    padding: 0 16px 24px;
+  }
+
+  .page-intro {
+    padding-top: 32px;
+  }
+
+  .page-intro h1 {
+    font-size: 30px;
   }
 }
