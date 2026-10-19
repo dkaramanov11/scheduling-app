@@ -47,6 +47,8 @@ public class BookingService {
                 timeSlot,
                 request.customerName().strip(),
                 request.customerEmail().strip(),
+                request.trainingFocus(),
+                request.experienceLevel(),
                 now
         );
 

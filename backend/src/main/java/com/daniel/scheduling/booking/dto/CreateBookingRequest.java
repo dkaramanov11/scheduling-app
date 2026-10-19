@@ -1,5 +1,7 @@
 package com.daniel.scheduling.booking.dto;
 
+import com.daniel.scheduling.booking.enums.ExperienceLevel;
+import com.daniel.scheduling.booking.enums.TrainingFocus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,8 +13,13 @@ import jakarta.validation.constraints.Size;
  * {
  *   "timeSlotId": 1,
  *   "customerName": "Daniel",
- *   "customerEmail": "daniel@example.com"
+ *   "customerEmail": "daniel@example.com",
+ *   "trainingFocus": "KATA",
+ *   "experienceLevel": "BEGINNER"
  * }
+ *
+ * trainingFocus and experienceLevel are optional.
+ * When omitted, their values are null.
  */
 public record CreateBookingRequest(
 
@@ -27,7 +34,11 @@ public record CreateBookingRequest(
         @NotBlank(message = "Customer email is required")
         @Email(message = "Customer email must be valid")
         @Size(max = 254, message = "Customer email must not exceed 254 characters")
-        String customerEmail
+        String customerEmail,
+
+        TrainingFocus trainingFocus,
+
+        ExperienceLevel experienceLevel
 
 ) {
 }

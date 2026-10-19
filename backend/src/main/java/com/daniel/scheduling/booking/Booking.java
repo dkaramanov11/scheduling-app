@@ -1,5 +1,7 @@
 package com.daniel.scheduling.booking;
 
+import com.daniel.scheduling.booking.enums.ExperienceLevel;
+import com.daniel.scheduling.booking.enums.TrainingFocus;
 import com.daniel.scheduling.timeslot.TimeSlot;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.time.Instant;
 
@@ -33,6 +37,14 @@ public class Booking {
     @Column(name = "customer_email", nullable = false, length = 254)
     private String customerEmail;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "training_focus", length = 20)
+    private TrainingFocus trainingFocus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "experience_level", length = 20)
+    private ExperienceLevel experienceLevel;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -43,11 +55,15 @@ public class Booking {
             TimeSlot timeSlot,
             String customerName,
             String customerEmail,
+            TrainingFocus trainingFocus,
+            ExperienceLevel experienceLevel,
             Instant createdAt
     ) {
         this.timeSlot = timeSlot;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
+        this.trainingFocus = trainingFocus;
+        this.experienceLevel = experienceLevel;
         this.createdAt = createdAt;
     }
 }
