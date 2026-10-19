@@ -7,6 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -42,4 +47,34 @@ public class TimeSlotController {
                 .toList();
     }
 
+    /*
+     * GET /api/time-slots/manage
+     * GET /api/time-slots/manage?status=BOOKED
+     *
+     * Returns upcoming time slots ordered by start time.
+     * Omitting status returns all statuses.
+     */
+    @GetMapping("/manage")
+    public List<TimeSlotManagementResponse> findForManagement(
+            @RequestParam(name = "status", required = false)
+            TimeSlotStatus status
+    ) {
+        return timeSlotService.findForManagement(status);
+    }
+
+    /*
+     * PATCH /api/time-slots/20/cancel
+     *
+     * Removes an available time slot from the public schedule.
+     * Booked time slots must have their booking cancelled first.
+     * Returns 204 No Content on success.
+     */
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(
+            @PathVariable("id") Long id
+    ) {
+        timeSlotService.cancel(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

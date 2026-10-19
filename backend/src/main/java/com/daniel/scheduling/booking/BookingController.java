@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -27,5 +29,20 @@ public class BookingController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(BookingResponse.from(booking));
+    }
+
+    /*
+     * DELETE /api/bookings/15
+     *
+     * Deletes the booking and makes its time slot available again.
+     * Returns 204 No Content on success.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancel(
+            @PathVariable("id") Long id
+    ) {
+        bookingService.cancel(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,0 +1,2 @@
+ALTER TABLE time_slots
+    ADD COLUMN cancelled_at TIMESTAMP WITH TIME ZONE;

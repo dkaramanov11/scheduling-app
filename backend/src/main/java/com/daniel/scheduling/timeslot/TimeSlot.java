@@ -1,11 +1,7 @@
 package com.daniel.scheduling.timeslot;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -25,6 +21,13 @@ public class TimeSlot {
     @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private TimeSlotStatus status = TimeSlotStatus.AVAILABLE;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
+
     protected TimeSlot() {
     }
 
@@ -35,6 +38,37 @@ public class TimeSlot {
 
     public Instant getEndAt() {
         return startAt.plus(durationMinutes, ChronoUnit.MINUTES);
+    }
+
+    public void markAsBooked() {
+        if (status != TimeSlotStatus.AVAILABLE) {
+            throw new IllegalStateException(
+                    "Only available time slots can be booked"
+            );
+        }
+
+        status = TimeSlotStatus.BOOKED;
+    }
+
+    public void releaseBooking() {
+        if (status != TimeSlotStatus.BOOKED) {
+            throw new IllegalStateException(
+                    "Only booked time slots can be released"
+            );
+        }
+
+        status = TimeSlotStatus.AVAILABLE;
+    }
+
+    public void cancel(Instant cancelledAt) {
+        if (status != TimeSlotStatus.AVAILABLE) {
+            throw new IllegalStateException(
+                    "Only available time slots can be cancelled"
+            );
+        }
+
+        this.status = TimeSlotStatus.CANCELLED;
+        this.cancelledAt = cancelledAt;
     }
 
 }
