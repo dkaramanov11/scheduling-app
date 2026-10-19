@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
 
 import java.time.Instant;
 
@@ -21,7 +22,7 @@ public class BookingService {
     @Transactional
     public Booking create(CreateBookingRequest request) {
         TimeSlot timeSlot = timeSlotRepository
-                .findById(request.timeSlotId())
+                .findOneById(request.timeSlotId())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Time slot not found"
@@ -36,12 +37,22 @@ public class BookingService {
             );
         }
 
-        if (bookingRepository.existsByTimeSlot_Id(timeSlot.getId())) {
+        if (timeSlot.getStatus() == TimeSlotStatus.CANCELLED) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Time slot is cancelled"
+            );
+        }
+
+        if (timeSlot.getStatus() == TimeSlotStatus.BOOKED
+                || bookingRepository.existsByTimeSlot_Id(timeSlot.getId())) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "Time slot is already booked"
             );
         }
+
+        timeSlot.markAsBooked();
 
         Booking booking = new Booking(
                 timeSlot,
@@ -52,6 +63,6 @@ public class BookingService {
                 now
         );
 
-     return bookingRepository.saveAndFlush(booking);
+        return bookingRepository.saveAndFlush(booking);
     }
 }

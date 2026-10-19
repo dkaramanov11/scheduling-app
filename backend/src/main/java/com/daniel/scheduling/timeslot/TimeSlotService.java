@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
+import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -51,7 +53,35 @@ public class TimeSlotService {
 
     @Transactional(readOnly = true)
     public List<TimeSlot> findAvailable() {
-        return timeSlotRepository.findAvailable(Instant.now());
+        return timeSlotRepository
+                .findByStatusAndStartAtAfterOrderByStartAtAscIdAsc(
+                        TimeSlotStatus.AVAILABLE,
+                        Instant.now()
+                );
+    }
+
+    @Transactional(readOnly = true)
+    public List<TimeSlotManagementResponse> findForManagement(
+            TimeSlotStatus status
+    ) {
+        Instant now = Instant.now();
+
+        List<TimeSlot> timeSlots;
+
+        if (status == null) {
+            timeSlots = timeSlotRepository
+                    .findByStartAtAfterOrderByStartAtAscIdAsc(now);
+        } else {
+            timeSlots = timeSlotRepository
+                    .findByStatusAndStartAtAfterOrderByStartAtAscIdAsc(
+                            status,
+                            now
+                    );
+        }
+
+        return timeSlots.stream()
+                .map(TimeSlotManagementResponse::from)
+                .toList();
     }
 
 }

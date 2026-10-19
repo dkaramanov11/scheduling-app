@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -40,6 +43,21 @@ public class TimeSlotController {
                 .stream()
                 .map(TimeSlotResponse::from)
                 .toList();
+    }
+
+    /*
+     * GET /api/time-slots/manage
+     * GET /api/time-slots/manage?status=BOOKED
+     *
+     * Returns upcoming time slots ordered by start time.
+     * Omitting status returns all statuses.
+     */
+    @GetMapping("/manage")
+    public List<TimeSlotManagementResponse> findForManagement(
+            @RequestParam(name = "status", required = false)
+            TimeSlotStatus status
+    ) {
+        return timeSlotService.findForManagement(status);
     }
 
 }
