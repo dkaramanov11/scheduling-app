@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.jpa.JpaSystemException;
+import java.sql.SQLException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,20 +18,41 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler({
+            DataIntegrityViolationException.class,
+            JpaSystemException.class
+    })
     public ProblemDetail handleDataIntegrityViolation(
-            DataIntegrityViolationException exception
+            RuntimeException exception
     ) {
         Throwable cause = exception;
 
         while (cause != null) {
-            if (cause instanceof ConstraintViolationException violation
-                    && "uq_bookings_time_slot".equals(
-                    violation.getConstraintName()
-            )) {
+            if (cause instanceof ConstraintViolationException violation) {
+                String constraintName = violation.getConstraintName();
+
+                if ("uq_bookings_time_slot".equals(constraintName)) {
+                    return ProblemDetail.forStatusAndDetail(
+                            HttpStatus.CONFLICT,
+                            "Time slot is already booked"
+                    );
+                }
+
+                if ("ex_time_slots_no_overlap".equals(constraintName)) {
+                    return ProblemDetail.forStatusAndDetail(
+                            HttpStatus.CONFLICT,
+                            "Time slot overlaps with an existing time slot"
+                    );
+                }
+            }
+
+            // PostgreSQL exclusion violation.
+            // Currently our only exclusion constraint prevents slot overlaps.
+            if (cause instanceof SQLException sqlException
+                    && "23P01".equals(sqlException.getSQLState())) {
                 return ProblemDetail.forStatusAndDetail(
                         HttpStatus.CONFLICT,
-                        "Time slot is already booked"
+                        "Time slot overlaps with an existing time slot"
                 );
             }
 

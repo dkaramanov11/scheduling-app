@@ -55,7 +55,7 @@ public class TimeSlotService {
                 request.durationMinutes()
         );
 
-        return timeSlotRepository.save(timeSlot);
+        return timeSlotRepository.saveAndFlush(timeSlot);
     }
 
     @Transactional(readOnly = true)
