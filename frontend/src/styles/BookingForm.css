@@ -8,3 +8,28 @@
 .booking-form h3 {
     margin: 0;
 }
+.session-booking .booking-form {
+    max-width: none;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.session-booking .booking-form h3 {
+    font-size: 16px;
+}
+
+.session-booking .form-field {
+    gap: 6px;
+}
+
+.session-booking .form-field label {
+    font-size: 12px;
+}
+
+.session-booking .form-field input {
+    padding: 10px 12px;
+}
+
+.session-booking .primary-button {
+    width: 100%;
+}

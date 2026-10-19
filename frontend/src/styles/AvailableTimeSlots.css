@@ -1,52 +1,96 @@
 .availability {
     margin-top: 32px;
-    padding: 28px;
+    padding: 24px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 10px;
 }
 
+.booking-panel {
+    display: grid;
+    grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1.1fr)
+    minmax(0, 1fr);
+    gap: 24px;
+}
+
+.booking-panel > * {
+    min-width: 0;
+}
+
+.booking-panel > * + * {
+    padding-left: 24px;
+    border-left: 1px solid var(--color-border);
+}
+
 .availability h2 {
-    margin: 0 0 12px;
-    font-size: 24px;
+    margin: 0 0 8px;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.8px;
 }
 
 .availability p {
     margin: 0;
     color: var(--color-muted);
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
-.availability p + p {
+.session-information {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--color-border);
+}
+
+.session-information h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+}
+
+.session-information .session-timezone {
     margin-top: 16px;
+    font-size: 14px;
 }
 
-.availability ul {
-    margin: 20px 0 0;
-    padding-left: 20px;
+.training-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
 }
 
-.availability li {
-    padding: 8px 0;
+.training-tags span {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background-color: #f1f0ed;
+    font-size: 12px;
+}
+
+.session-date {
+    margin: 0 0 16px;
+    font-size: 18px;
 }
 
 .availability .time-slot-list {
-    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 .time-slot-button {
     width: 100%;
-    padding: 16px;
+    min-height: 40px;
+    padding: 8px 4px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
     background-color: var(--color-surface);
     color: var(--color-text);
-    text-align: left;
+    font-size: 13px;
     cursor: pointer;
-    transition:
-            border-color 150ms ease,
-            background-color 150ms ease;
 }
 
 .time-slot-button:hover {
@@ -60,18 +104,53 @@
     color: #ffffff;
 }
 
-.selected-slot {
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid var(--color-border);
+.session-booking .booking-message {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: var(--color-primary-soft);
+    color: #a3161b;
+    font-size: 14px;
 }
 
-.selected-slot h3 {
-    margin: 0 0 12px;
+.session-booking .booking-message.success {
+    background-color: #edf7ef;
+    color: #236332;
+}
+
+.booking-calendar .calendar-hint {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+    .booking-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .booking-panel > .session-summary {
+        grid-column: 1 / -1;
+    }
+
+    .booking-panel > .booking-calendar {
+        padding-left: 0;
+        border-left: none;
+    }
 }
 
 @media (max-width: 600px) {
     .availability {
         padding: 20px;
+    }
+
+    .booking-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-panel > * + * {
+        padding-top: 24px;
+        padding-left: 0;
+        border-top: 1px solid var(--color-border);
+        border-left: none;
     }
 }
