@@ -1,17 +1,45 @@
 import { useEffect, useState } from 'react'
 import { getAvailableTimeSlots } from '../services/timeSlotService'
+import BookingCalendar from './BookingCalendar'
 import BookingForm from './BookingForm'
+import '../styles/AvailableTimeSlots.css'
 
-const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+const dateKeyFormatter = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/Skopje',
-    dateStyle: 'full',
-    timeStyle: 'short',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
 })
+
+const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Skopje',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+})
+
+const headingFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'UTC',
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+})
+
+function getDateKey(value) {
+    const parts = dateKeyFormatter.formatToParts(new Date(value))
+    const year = parts.find((part) => part.type === 'year').value
+    const month = parts.find((part) => part.type === 'month').value
+    const day = parts.find((part) => part.type === 'day').value
+
+    return `${year}-${month}-${day}`
+}
 
 function AvailableTimeSlots() {
     const [timeSlots, setTimeSlots] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
+    const [selectedDate, setSelectedDate] = useState('')
+    const [month, setMonth] = useState(() => getDateKey(new Date()).slice(0, 7))
     const [selectedSlot, setSelectedSlot] = useState(null)
     const [successMessage, setSuccessMessage] = useState('')
     const [bookingError, setBookingError] = useState('')
@@ -24,11 +52,22 @@ function AvailableTimeSlots() {
                 const data = await getAvailableTimeSlots(controller.signal)
 
                 if (!controller.signal.aborted) {
-                    setTimeSlots(data)
+                    const sortedSlots = [...data].sort(
+                        (first, second) =>
+                            new Date(first.startAt) - new Date(second.startAt)
+                    )
+
+                    setTimeSlots(sortedSlots)
+
+                    if (sortedSlots.length > 0) {
+                        const firstDate = getDateKey(sortedSlots[0].startAt)
+                        setSelectedDate(firstDate)
+                        setMonth(firstDate.slice(0, 7))
+                    }
                 }
             } catch {
                 if (!controller.signal.aborted) {
-                    setError('Unable to load available time slots. Please try again.')
+                    setError('Unable to load available sessions. Please try again.')
                 }
             } finally {
                 if (!controller.signal.aborted) {
@@ -42,13 +81,34 @@ function AvailableTimeSlots() {
         return () => controller.abort()
     }, [])
 
+    const availableDates = new Set(
+        timeSlots.map((slot) => getDateKey(slot.startAt))
+    )
+
+    const dailySlots = timeSlots.filter(
+        (slot) => getDateKey(slot.startAt) === selectedDate
+    )
+
+    function handleDateSelect(date) {
+        setSelectedDate(date)
+        setSelectedSlot(null)
+        setSuccessMessage('')
+        setBookingError('')
+    }
+
+    function handleMonthChange(nextMonth) {
+        setMonth(nextMonth)
+        setSelectedDate('')
+        setSelectedSlot(null)
+    }
+
     function handleBookingSuccess(timeSlotId) {
         setTimeSlots((currentSlots) =>
             currentSlots.filter((slot) => slot.id !== timeSlotId)
         )
         setBookingError('')
         setSelectedSlot(null)
-        setSuccessMessage('Your meeting has been booked successfully.')
+        setSuccessMessage('Your karate session has been booked successfully.')
     }
 
     function handleSlotUnavailable(timeSlotId, message) {
@@ -61,66 +121,116 @@ function AvailableTimeSlots() {
     }
 
     return (
-        <section className="availability" aria-labelledby="availability-title">
-            <h2 id="availability-title">Available time slots</h2>
-            <p>All times are shown in Europe/Skopje.</p>
-            {successMessage && (
-                <p role="status">{successMessage}</p>
-            )}
+        <section
+            className="availability booking-panel"
+            aria-labelledby="availability-title"
+        >
+            <div className="session-summary">
+                <h2 id="availability-title">Book your next session</h2>
+                <p>Choose your day. Find your focus.</p>
 
-            {bookingError && (
-                <p role="alert">{bookingError}</p>
-            )}
+                <div className="session-information">
+                    <h3>Private karate session</h3>
+                    <p>Individual coaching tailored to your goals.</p>
+                    <p className="session-timezone">Time zone: Europe/Skopje</p>
 
-            {isLoading && (
-                <p role="status">Loading available time slots...</p>
-            )}
-
-            {!isLoading && error && (
-                <p role="alert">{error}</p>
-            )}
-
-            {!isLoading && !error && timeSlots.length === 0 && (
-                <p role="status">
-                    No available time slots right now. Please check back later.
-                </p>
-            )}
-
-            {!isLoading && !error && timeSlots.length > 0 && (
-                <ul className="time-slot-list">
-                    {timeSlots.map((slot) => (
-                        <li key={slot.id}>
-                            <button
-                                type="button"
-                                className={
-                                    selectedSlot?.id === slot.id
-                                        ? 'time-slot-button selected'
-                                        : 'time-slot-button'
-                                }
-                                aria-pressed={selectedSlot?.id === slot.id}
-                                onClick={() => setSelectedSlot(slot)}
-                            >
-                                {dateFormatter.format(new Date(slot.startAt))}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            {selectedSlot && (
-                <div className="selected-slot">
-                    <h3>Selected time slot</h3>
-                    <p>
-                        {dateFormatter.format(new Date(selectedSlot.startAt))}
-                        {' — Europe/Skopje'}
-                    </p>
-                    <BookingForm
-                        key={selectedSlot.id}
-                        timeSlotId={selectedSlot.id}
-                        onBookingSuccess={handleBookingSuccess}
-                        onSlotUnavailable={handleSlotUnavailable}
-                    />
+                    <div className="training-tags" aria-label="Training areas">
+                        <span>Kihon</span>
+                        <span>Kata</span>
+                        <span>Kumite</span>
+                    </div>
                 </div>
-            )}
+            </div>
+
+            <BookingCalendar
+                month={month}
+                selectedDate={selectedDate}
+                availableDates={availableDates}
+                onMonthChange={handleMonthChange}
+                onDateSelect={handleDateSelect}
+            />
+
+            <div className="session-booking">
+                {successMessage && (
+                    <p className="booking-message success" role="status">
+                        {successMessage}
+                    </p>
+                )}
+
+                {bookingError && (
+                    <p className="booking-message" role="alert">
+                        {bookingError}
+                    </p>
+                )}
+
+                {isLoading && (
+                    <p role="status">Loading available sessions...</p>
+                )}
+
+                {!isLoading && error && (
+                    <p role="alert">{error}</p>
+                )}
+
+                {!isLoading && !error && timeSlots.length === 0 && (
+                    <p role="status">
+                        No available sessions right now. Please check back later.
+                    </p>
+                )}
+
+                {!isLoading && !error && timeSlots.length > 0 && (
+                    <>
+                        <h3 className="session-date">
+                            {selectedDate
+                                ? headingFormatter.format(
+                                    new Date(`${selectedDate}T00:00:00Z`)
+                                )
+                                : 'Choose a date'}
+                        </h3>
+
+                        {!selectedDate && (
+                            <p>Select an available date in the calendar.</p>
+                        )}
+
+                        {selectedDate && dailySlots.length === 0 && (
+                            <p role="status">
+                                No remaining sessions on this date. Please choose another.
+                            </p>
+                        )}
+
+                        <ul className="time-slot-list">
+                            {dailySlots.map((slot) => (
+                                <li key={slot.id}>
+                                    <button
+                                        type="button"
+                                        className={
+                                            selectedSlot?.id === slot.id
+                                                ? 'time-slot-button selected'
+                                                : 'time-slot-button'
+                                        }
+                                        aria-pressed={selectedSlot?.id === slot.id}
+                                        onClick={() => {
+                                            setSelectedSlot(slot)
+                                            setSuccessMessage('')
+                                            setBookingError('')
+                                        }}
+                                    >
+                                        {timeFormatter.format(new Date(slot.startAt))}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {selectedSlot && (
+                            <BookingForm
+                                key={selectedSlot.id}
+                                timeSlotId={selectedSlot.id}
+                                onBookingSuccess={handleBookingSuccess}
+                                onSlotUnavailable={handleSlotUnavailable}
+                            />
+                        )}
+                    </>
+                )}
+            </div>
         </section>
     )
 }

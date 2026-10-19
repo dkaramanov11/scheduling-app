@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createTimeSlot } from '../services/timeSlotService'
+import '../styles/BookingForm.css'
 
 function CreateTimeSlotForm({ onTimeSlotCreated }) {
     const [startAt, setStartAt] = useState('')

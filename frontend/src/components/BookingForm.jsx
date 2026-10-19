@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createBooking } from '../services/bookingService'
+import '../styles/BookingForm.css'
 
 function BookingForm({
                          timeSlotId,

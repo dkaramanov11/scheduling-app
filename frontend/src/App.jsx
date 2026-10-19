@@ -1,7 +1,10 @@
+import { useState } from 'react'
+import Header from './components/Header'
 import AvailableTimeSlots from './components/AvailableTimeSlots'
 import CreateTimeSlotForm from './components/CreateTimeSlotForm'
-import { useState } from 'react'
-import './App.css'
+import './styles/App.css'
+import Hero from './components/Hero'
+import CoachSection from './components/CoachSection'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)
@@ -9,15 +12,23 @@ function App() {
     function handleTimeSlotCreated() {
         setAvailabilityVersion((current) => current + 1)
     }
+
     return (
-        <main className="app">
-            <h1>Scheduling App</h1>
-            <p>Find a time that works for you and book a meeting.</p>
+        <div className="app" id="home">
+            <Header />
 
-            <AvailableTimeSlots key={availabilityVersion} />
+            <main>
+                <Hero />
 
-            <CreateTimeSlotForm onTimeSlotCreated={handleTimeSlotCreated} />
-        </main>
+                <div id="booking">
+                    <AvailableTimeSlots key={availabilityVersion} />
+                </div>
+
+                <CoachSection />
+
+                <CreateTimeSlotForm onTimeSlotCreated={handleTimeSlotCreated} />
+            </main>
+        </div>
     )
 }
 
