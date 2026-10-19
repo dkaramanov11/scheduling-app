@@ -4,17 +4,6 @@
   padding: 0 32px 48px;
 }
 
-.page-intro {
-  padding-top: 48px;
-}
-
-.page-intro h1 {
-  margin: 0 0 16px;
-  font-size: 36px;
-  letter-spacing: -1px;
-}
-
-.page-intro p,
 .coach-preview p {
   margin: 0;
   color: var(--color-muted);
@@ -52,12 +41,8 @@
   .app {
     padding: 0 16px 24px;
   }
+}
 
-  .page-intro {
-    padding-top: 32px;
-  }
-
-  .page-intro h1 {
-    font-size: 30px;
-  }
+#booking > .availability {
+  margin-top: 4px;
 }
