@@ -72,6 +72,38 @@ function BookingForm({
             aria-busy={isSubmitting}
         >
             <div className="form-field">
+                <label htmlFor="customerName">Full name</label>
+
+                <input
+                    id="customerName"
+                    name="customerName"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Your full name"
+                    value={customerName}
+                    disabled={isSubmitting}
+                    onChange={(event) => setCustomerName(event.target.value)}
+                    required
+                />
+            </div>
+
+            <div className="form-field">
+                <label htmlFor="customerEmail">Email address</label>
+
+                <input
+                    id="customerEmail"
+                    name="customerEmail"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    value={customerEmail}
+                    disabled={isSubmitting}
+                    onChange={(event) => setCustomerEmail(event.target.value)}
+                    required
+                />
+            </div>
+
+            <div className="form-field">
                 <label htmlFor="trainingFocus">
                     Training focus
                     <span className="optional-label"> (optional)</span>
@@ -109,38 +141,6 @@ function BookingForm({
                     <option value="INTERMEDIATE">Intermediate</option>
                     <option value="ADVANCED">Advanced</option>
                 </select>
-            </div>
-
-            <div className="form-field">
-                <label htmlFor="customerName">Full name</label>
-
-                <input
-                    id="customerName"
-                    name="customerName"
-                    type="text"
-                    autoComplete="name"
-                    placeholder="Your full name"
-                    value={customerName}
-                    disabled={isSubmitting}
-                    onChange={(event) => setCustomerName(event.target.value)}
-                    required
-                />
-            </div>
-
-            <div className="form-field">
-                <label htmlFor="customerEmail">Email address</label>
-
-                <input
-                    id="customerEmail"
-                    name="customerEmail"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="you@example.com"
-                    value={customerEmail}
-                    disabled={isSubmitting}
-                    onChange={(event) => setCustomerEmail(event.target.value)}
-                    required
-                />
             </div>
 
             {error && (
