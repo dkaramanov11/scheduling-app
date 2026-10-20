@@ -1,0 +1,61 @@
+.create-slot-modal {
+    position: fixed;
+    width: min(560px, calc(100% - 32px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 32px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 24px 80px rgb(0 0 0 / 18%);
+}
+
+.create-slot-modal::backdrop {
+    background-color: rgb(0 0 0 / 45%);
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-muted);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.create-slot-modal .availability {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.create-slot-modal .availability h2 {
+    padding-right: 28px;
+    font-size: 26px;
+}
+
+.create-slot-modal .booking-form {
+    max-width: none;
+}
+
+@media (max-width: 600px) {
+    .create-slot-modal {
+        padding: 28px 20px;
+    }
+}

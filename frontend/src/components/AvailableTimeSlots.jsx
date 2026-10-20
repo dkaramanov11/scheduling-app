@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getAvailableTimeSlots } from '../services/timeSlotService'
 import BookingCalendar from './BookingCalendar'
 import BookingForm from './BookingForm'
@@ -39,7 +39,11 @@ function getDateKey(value) {
     return `${year}-${month}-${day}`
 }
 
-function AvailableTimeSlots() {
+function AvailableTimeSlots({
+                                refreshVersion = 0,
+                                onBookingChanged,
+                            }) {
+    const hasInitialized = useRef(false)
     const [timeSlots, setTimeSlots] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
@@ -55,23 +59,34 @@ function AvailableTimeSlots() {
         const controller = new AbortController()
 
         async function loadTimeSlots() {
+            setIsLoading(true)
+            setError('')
+
             try {
                 const data = await getAvailableTimeSlots(controller.signal)
 
-                if (!controller.signal.aborted) {
-                    const sortedSlots = [...data].sort(
-                        (first, second) =>
-                            new Date(first.startAt) - new Date(second.startAt)
-                    )
+                if (controller.signal.aborted) return
 
-                    setTimeSlots(sortedSlots)
+                const sortedSlots = [...data].sort(
+                    (first, second) =>
+                        new Date(first.startAt) - new Date(second.startAt)
+                )
 
-                    if (sortedSlots.length > 0) {
-                        const firstDate = getDateKey(sortedSlots[0].startAt)
-                        setSelectedDate(firstDate)
-                        setMonth(firstDate.slice(0, 7))
-                    }
+                setTimeSlots(sortedSlots)
+
+                setSelectedSlot((current) =>
+                    current
+                        ? sortedSlots.find((slot) => slot.id === current.id) ?? null
+                        : null
+                )
+
+                if (!hasInitialized.current && sortedSlots.length > 0) {
+                    const firstDate = getDateKey(sortedSlots[0].startAt)
+                    setSelectedDate(firstDate)
+                    setMonth(firstDate.slice(0, 7))
                 }
+
+                hasInitialized.current = true
             } catch {
                 if (!controller.signal.aborted) {
                     setError(
@@ -88,7 +103,7 @@ function AvailableTimeSlots() {
         loadTimeSlots()
 
         return () => controller.abort()
-    }, [])
+    }, [refreshVersion])
 
     const availableDates = new Set(
         timeSlots.map((slot) => getDateKey(slot.startAt))
@@ -122,6 +137,7 @@ function AvailableTimeSlots() {
         setSuccessMessage(
             'Your karate session has been booked successfully.'
         )
+        onBookingChanged()
     }
 
     function handleSlotUnavailable(timeSlotId, message) {
@@ -131,6 +147,7 @@ function AvailableTimeSlots() {
         setSelectedSlot(null)
         setSuccessMessage('')
         setBookingError(message)
+        onBookingChanged()
     }
 
     return (

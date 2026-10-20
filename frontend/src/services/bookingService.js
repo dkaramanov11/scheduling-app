@@ -22,3 +22,21 @@ export async function createBooking(booking) {
 
     return response.json()
 }
+
+export async function cancelBooking(bookingId) {
+    const response = await fetch(`/api/bookings/${bookingId}`, {
+        method: 'DELETE',
+    })
+
+    if (!response.ok) {
+        const problem = await response.json().catch(() => null)
+
+        const error = new Error(
+            problem?.detail ||
+            'Unable to cancel the booking. Please try again.'
+        )
+
+        error.status = response.status
+        throw error
+    }
+}

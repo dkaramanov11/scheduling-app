@@ -1,63 +1,31 @@
 import '../styles/Header.css'
 
-function Header({
-                    activeView,
-                    onBookingNavigation,
-                    onManageNavigation,
-                }) {
+function Header() {
     return (
         <header className="site-header">
             <a
                 className="site-brand"
                 href="#home"
                 aria-label="Dojo Sessions home"
-                onClick={(event) => onBookingNavigation(event, 'home')}
             >
                 <span className="brand-mark" aria-hidden="true" />
                 <span>DOJO SESSIONS</span>
             </a>
 
             <nav className="site-navigation" aria-label="Main navigation">
-                <a
-                    className="navigation-link"
-                    href="#training"
-                    onClick={(event) =>
-                        onBookingNavigation(event, 'training')
-                    }
-                >
+                <a className="navigation-link" href="#training">
                     Training
                 </a>
 
-                <a
-                    className="navigation-link"
-                    href="#coach"
-                    onClick={(event) =>
-                        onBookingNavigation(event, 'coach')
-                    }
-                >
+                <a className="navigation-link" href="#coach">
                     About the coach
                 </a>
 
-                <button
-                    className={
-                        activeView === 'manage'
-                            ? 'navigation-link navigation-button active'
-                            : 'navigation-link navigation-button'
-                    }
-                    type="button"
-                    aria-pressed={activeView === 'manage'}
-                    onClick={onManageNavigation}
-                >
+                <a className="navigation-link" href="#manage">
                     Manage availability
-                </button>
+                </a>
 
-                <a
-                    className="primary-button"
-                    href="#booking"
-                    onClick={(event) =>
-                        onBookingNavigation(event, 'booking')
-                    }
-                >
+                <a className="primary-button" href="#booking">
                     Book a session
                 </a>
             </nav>

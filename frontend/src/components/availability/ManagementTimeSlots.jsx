@@ -1,0 +1,89 @@
+import { formatDate, formatTimeRange } from '../../utils/dateTime'
+
+const statusLabels = {
+    AVAILABLE: 'Available',
+    BOOKED: 'Booked',
+    CANCELLED: 'Cancelled',
+}
+
+const emptyMessages = {
+    ALL: 'No time slots on this date.',
+    AVAILABLE: 'No available sessions on this date.',
+    BOOKED: 'No booked sessions on this date.',
+    CANCELLED: 'No cancelled time slots on this date.',
+}
+
+function ManagementTimeSlots({
+                                 selectedDate,
+                                 timeSlots,
+                                 selectedSlot,
+                                 onSlotSelect,
+                                 statusFilter,
+                                 onStatusFilterChange,
+                             }) {
+    return (
+        <div className="management-times">
+            <h3>
+                {selectedDate
+                    ? formatDate(`${selectedDate}T12:00:00Z`)
+                    : 'Choose a date'}
+            </h3>
+
+            <div className="management-status-filter form-field">
+                <label htmlFor="management-status-filter">
+                    Show
+                </label>
+
+                <select
+                    id="management-status-filter"
+                    value={statusFilter}
+                    onChange={(event) =>
+                        onStatusFilterChange(event.target.value)
+                    }
+                >
+                    <option value="ALL">All statuses</option>
+                    <option value="AVAILABLE">Available</option>
+                    <option value="BOOKED">Booked</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+            </div>
+
+            {!selectedDate ? (
+                <p>Select a day in the calendar to view its schedule.</p>
+            ) : timeSlots.length === 0 ? (
+                <p role="status">
+                    {emptyMessages[statusFilter]}
+                </p>
+            ) : (
+                <ul className="management-slot-list">
+                    {timeSlots.map((slot) => (
+                        <li key={slot.id}>
+                            <button
+                                type="button"
+                                className={
+                                    selectedSlot?.id === slot.id
+                                        ? 'management-slot selected'
+                                        : 'management-slot'
+                                }
+                                aria-pressed={selectedSlot?.id === slot.id}
+                                onClick={() => onSlotSelect(slot.id)}
+                            >
+                                <span className="management-slot-time">
+                                    {formatTimeRange(slot.startAt, slot.endAt)}
+                                </span>
+
+                                <span
+                                    className={`slot-status status-${slot.status.toLowerCase()}`}
+                                >
+                                    {statusLabels[slot.status] ?? slot.status}
+                                </span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    )
+}
+
+export default ManagementTimeSlots
