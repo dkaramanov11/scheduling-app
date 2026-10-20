@@ -240,6 +240,7 @@
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
+
 }
 
 .management-danger-button:hover:not(:disabled) {
@@ -300,4 +301,18 @@
     min-height: 34px;
     padding: 6px 10px;
     font-size: 12px;
+}
+
+.management-details .management-detail-list dd {
+    overflow-wrap: anywhere;
+}
+
+.management-details .management-booking-info {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+.management-actions-alignment {
+    margin-top: -15px;
+    display: flex;
+    justify-content: flex-end;
 }
