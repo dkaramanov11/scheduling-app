@@ -9,17 +9,41 @@
 .booking-panel {
     display: grid;
     grid-template-columns:
-    minmax(0, 1fr)
-    minmax(0, 1.1fr)
-    minmax(0, 1fr);
-    gap: 24px;
+        minmax(0, 1.1fr)
+        minmax(0, 1fr)
+        minmax(0, 0.95fr);
+    grid-template-areas:
+        "calendar times summary"
+        "calendar form summary";
+    grid-template-rows: auto 1fr;
+    align-items: start;
+    gap: 0 24px;
 }
 
 .booking-panel > * {
     min-width: 0;
 }
 
-.booking-panel > * + * {
+.booking-panel > .booking-calendar {
+    grid-area: calendar;
+}
+
+.booking-panel > .session-booking {
+    grid-area: times;
+}
+
+.booking-panel > .booking-form {
+    grid-area: form;
+}
+
+.booking-panel > .session-summary {
+    grid-area: summary;
+    padding-left: 24px;
+    border-left: 1px solid var(--color-border);
+}
+
+.booking-panel > .session-booking,
+.booking-panel > .booking-form {
     padding-left: 24px;
     border-left: 1px solid var(--color-border);
 }
@@ -46,11 +70,6 @@
 .session-information h3 {
     margin: 0 0 12px;
     font-size: 18px;
-}
-
-.session-information .session-timezone {
-    margin-top: 16px;
-    font-size: 14px;
 }
 
 .training-tags {
@@ -118,22 +137,59 @@
     color: #236332;
 }
 
+.session-booking .time-selection-hint {
+    margin-top: 16px;
+    font-size: 13px;
+}
+
 .booking-calendar .calendar-hint {
     margin-top: 20px;
     font-size: 12px;
 }
 
+.session-details {
+    display: grid;
+    gap: 14px;
+    margin: 22px 0 0;
+}
+
+.session-details > div {
+    display: grid;
+    gap: 4px;
+}
+
+.session-details dt {
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.session-details dd {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.session-information .session-selection-hint {
+    margin-top: 20px;
+    font-size: 13px;
+}
+
 @media (max-width: 1000px) {
     .booking-panel {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas:
+            "calendar times"
+            "summary form";
+        gap: 24px;
     }
 
     .booking-panel > .session-summary {
-        grid-column: 1 / -1;
-    }
-
-    .booking-panel > .booking-calendar {
+        padding-top: 24px;
         padding-left: 0;
+        border-top: 1px solid var(--color-border);
         border-left: none;
     }
 }
@@ -144,11 +200,19 @@
     }
 
     .booking-panel {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "calendar"
+            "times"
+            "summary"
+            "form";
+        gap: 24px;
     }
 
-    .booking-panel > * + * {
-        padding-top: 24px;
+    .booking-panel > .session-booking,
+    .booking-panel > .session-summary,
+    .booking-panel > .booking-form {
+        padding-top: 20px;
         padding-left: 0;
         border-top: 1px solid var(--color-border);
         border-left: none;

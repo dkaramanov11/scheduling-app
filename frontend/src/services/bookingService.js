@@ -11,7 +11,7 @@ export async function createBooking(booking) {
         const problem = await response.json().catch(() => null)
 
         const error = new Error(
-            problem?.detail || 'Unable to book the meeting. Please try again.'
+            problem?.detail || 'Unable to book the session. Please try again.'
         )
 
         error.status = response.status
