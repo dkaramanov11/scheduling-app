@@ -14,12 +14,14 @@ public record TimeSlotManagementResponse(
         TimeSlotStatus status,
         Instant cancelledAt,
         Long bookingId,
-        BookingSummaryResponse booking
+        BookingSummaryResponse booking,
+        boolean googleCalendarConflict
 ) {
 
     public static TimeSlotManagementResponse from(
             TimeSlot timeSlot,
-            BookingSummaryResponse booking
+            BookingSummaryResponse booking,
+            boolean googleCalendarConflict
     ) {
         BookingSummaryResponse activeBooking =
                 timeSlot.getStatus() == TimeSlotStatus.BOOKED
@@ -34,7 +36,8 @@ public record TimeSlotManagementResponse(
                 timeSlot.getStatus(),
                 timeSlot.getCancelledAt(),
                 activeBooking == null ? null : activeBooking.id(),
-                activeBooking
+                activeBooking,
+                googleCalendarConflict
         );
     }
 }

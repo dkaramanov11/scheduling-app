@@ -22,6 +22,7 @@ const experienceLevelLabels = {
 function TimeSlotDetails({ slot, onScheduleChanged }) {
     const isBooked = slot?.status === 'BOOKED'
     const booking = isBooked ? slot.booking : null
+    const hasCalendarConflict = slot?.googleCalendarConflict === true
 
     return (
         <div className="management-details">
@@ -36,6 +37,13 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                     >
                         {statusLabels[slot.status] ?? slot.status}
                     </span>
+
+                    {hasCalendarConflict && (
+                        <p className="management-calendar-notice">
+                            Busy in Google Calendar. This time slot overlaps with
+                            an event in the coach’s calendar.
+                        </p>
+                    )}
 
                     {isBooked && (
                         booking ? (
