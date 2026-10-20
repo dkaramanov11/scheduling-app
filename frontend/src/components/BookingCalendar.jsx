@@ -19,6 +19,7 @@ function BookingCalendar({
                              availableDates,
                              onMonthChange,
                              onDateSelect,
+                             hint = 'Select a date with available sessions.',
                          }) {
     const [year, monthNumber] = month.split('-').map(Number)
     const firstDay = new Date(Date.UTC(year, monthNumber - 1, 1))
@@ -97,9 +98,7 @@ function BookingCalendar({
                 })}
             </div>
 
-            <p className="calendar-hint">
-                Select a date with available sessions.
-            </p>
+            <p className="calendar-hint">{hint}</p>
         </div>
     )
 }
