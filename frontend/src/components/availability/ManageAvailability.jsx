@@ -1,5 +1,5 @@
 import BookingCalendar from '../BookingCalendar'
-import CreateTimeSlotForm from '../CreateTimeSlotForm'
+import CreateTimeSlotModal from './CreateTimeSlotModal'
 import ManagementTimeSlots from './ManagementTimeSlots'
 import TimeSlotDetails from './TimeSlotDetails'
 import useManageAvailability from '../../hooks/useManageAvailability'
@@ -8,6 +8,7 @@ import { useState } from 'react'
 
 function ManageAvailability({ onAvailabilityChanged }) {
     const [actionMessage, setActionMessage] = useState('')
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const {
         isLoading,
         error,
@@ -23,6 +24,8 @@ function ManageAvailability({ onAvailabilityChanged }) {
     } = useManageAvailability()
 
     function handleTimeSlotCreated() {
+        setIsCreateModalOpen(false)
+        setActionMessage('Time slot created successfully.')
         refreshSchedule()
         onAvailabilityChanged()
     }
@@ -46,14 +49,24 @@ function ManageAvailability({ onAvailabilityChanged }) {
                     <p>Review your schedule and select a training session.</p>
                 </div>
 
-                <button
-                    className="management-refresh"
-                    type="button"
-                    disabled={isLoading}
-                    onClick={refreshSchedule}
-                >
-                    {isLoading ? 'Refreshing...' : 'Refresh schedule'}
-                </button>
+                <div className="management-heading-actions">
+                    <button
+                        className="management-refresh"
+                        type="button"
+                        disabled={isLoading}
+                        onClick={refreshSchedule}
+                    >
+                        {isLoading ? 'Refreshing...' : 'Refresh schedule'}
+                    </button>
+
+                    <button
+                        className="primary-button"
+                        type="button"
+                        onClick={() => setIsCreateModalOpen(true)}
+                    >
+                        Add time slot
+                    </button>
+                </div>
             </div>
 
             {actionMessage && (
@@ -99,11 +112,12 @@ function ManageAvailability({ onAvailabilityChanged }) {
                 </div>
             )}
 
-            <div className="management-create">
-                <CreateTimeSlotForm
+            {isCreateModalOpen && (
+                <CreateTimeSlotModal
+                    onClose={() => setIsCreateModalOpen(false)}
                     onTimeSlotCreated={handleTimeSlotCreated}
                 />
-            </div>
+            )}
         </section>
     )
 }

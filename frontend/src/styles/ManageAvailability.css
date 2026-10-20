@@ -188,14 +188,6 @@
     color: #a3161b;
 }
 
-.management-create {
-    margin-top: 24px;
-}
-
-.management-create > .availability {
-    margin-top: 0;
-}
-
 .management-panel .calendar-hint {
     margin-top: 20px;
     font-size: 12px;
@@ -280,4 +272,11 @@
 .management-success {
     background-color: #edf7ef;
     color: #236332;
+}
+
+.management-heading-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
 }
