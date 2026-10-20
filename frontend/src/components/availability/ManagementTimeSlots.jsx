@@ -20,6 +20,8 @@ function ManagementTimeSlots({
                                  onSlotSelect,
                                  statusFilter,
                                  onStatusFilterChange,
+                                 focusFilter,
+                                 onFocusFilterChange,
                              }) {
     return (
         <div className="management-times">
@@ -29,30 +31,53 @@ function ManagementTimeSlots({
                     : 'Choose a date'}
             </h3>
 
-            <div className="management-status-filter form-field">
-                <label htmlFor="management-status-filter">
-                    Show
-                </label>
+            <div className="management-filters">
+                <div className="management-filter">
+                    <label htmlFor="management-status-filter">
+                        Status
+                    </label>
 
-                <select
-                    id="management-status-filter"
-                    value={statusFilter}
-                    onChange={(event) =>
-                        onStatusFilterChange(event.target.value)
-                    }
-                >
-                    <option value="ALL">All statuses</option>
-                    <option value="AVAILABLE">Available</option>
-                    <option value="BOOKED">Booked</option>
-                    <option value="CANCELLED">Cancelled</option>
-                </select>
+                    <select
+                        id="management-status-filter"
+                        value={statusFilter}
+                        onChange={(event) =>
+                            onStatusFilterChange(event.target.value)
+                        }
+                    >
+                        <option value="ALL">All statuses</option>
+                        <option value="AVAILABLE">Available</option>
+                        <option value="BOOKED">Booked</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                </div>
+
+                <div className="management-filter">
+                    <label htmlFor="management-focus-filter">
+                        Focus
+                    </label>
+
+                    <select
+                        id="management-focus-filter"
+                        value={focusFilter}
+                        onChange={(event) =>
+                            onFocusFilterChange(event.target.value)
+                        }
+                    >
+                        <option value="ALL">All training</option>
+                        <option value="KIHON">Kihon</option>
+                        <option value="KATA">Kata</option>
+                        <option value="KUMITE">Kumite</option>
+                    </select>
+                </div>
             </div>
 
             {!selectedDate ? (
                 <p>Select a day in the calendar to view its schedule.</p>
             ) : timeSlots.length === 0 ? (
                 <p role="status">
-                    {emptyMessages[statusFilter]}
+                    {focusFilter !== 'ALL'
+                        ? 'No sessions match these filters on this date.'
+                        : emptyMessages[statusFilter]}
                 </p>
             ) : (
                 <ul className="management-slot-list">

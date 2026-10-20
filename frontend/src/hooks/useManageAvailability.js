@@ -5,6 +5,7 @@ import { getDateKey } from '../utils/dateTime'
 export default function useManageAvailability(externalVersion = 0) {
     const hasInitialized = useRef(false)
     const [statusFilter, setStatusFilter] = useState('ALL')
+    const [focusFilter, setFocusFilter] = useState('ALL')
     const [timeSlots, setTimeSlots] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
@@ -70,11 +71,19 @@ export default function useManageAvailability(externalVersion = 0) {
         timeSlots.map((slot) => getDateKey(slot.startAt))
     )
 
-    const dailySlots = timeSlots.filter(
-        (slot) =>
-            getDateKey(slot.startAt) === selectedDate &&
-            (statusFilter === 'ALL' || slot.status === statusFilter)
-    )
+    const dailySlots = timeSlots.filter((slot) => {
+        const matchesDate = getDateKey(slot.startAt) === selectedDate
+        const matchesStatus =
+            statusFilter === 'ALL' || slot.status === statusFilter
+        const matchesFocus =
+            focusFilter === 'ALL' ||
+            (
+                slot.status === 'BOOKED' &&
+                slot.booking?.trainingFocus === focusFilter
+            )
+
+        return matchesDate && matchesStatus && matchesFocus
+    })
 
     const selectedSlot = dailySlots.find(
         (slot) => slot.id === selectedSlotId
@@ -100,6 +109,11 @@ export default function useManageAvailability(externalVersion = 0) {
         setSelectedSlotId(null)
     }
 
+    function changeFocusFilter(focus) {
+        setFocusFilter(focus)
+        setSelectedSlotId(null)
+    }
+
     return {
         isLoading,
         error,
@@ -114,5 +128,7 @@ export default function useManageAvailability(externalVersion = 0) {
         refreshSchedule,
         statusFilter,
         changeStatusFilter,
+        focusFilter,
+        changeFocusFilter,
     }
 }

@@ -240,6 +240,7 @@
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
+
 }
 
 .management-danger-button:hover:not(:disabled) {
@@ -300,4 +301,141 @@
     min-height: 34px;
     padding: 6px 10px;
     font-size: 12px;
+}
+
+.management-details .management-detail-list dd {
+    overflow-wrap: anywhere;
+}
+
+.management-details .management-booking-info {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+}
+.management-actions-alignment {
+    margin-top: -15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.management-filters {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.management-filters {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 16px;
+}
+
+.management-filter label {
+    padding-right: 7px;
+    flex-shrink: 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.management-filter select {
+    width: 112px;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.management-filter select:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    .management-filters {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .management-filter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .management-filter select {
+        width: 100%;
+        min-height: 40px;
+    }
+}
+
+.management-actions-alignment {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.management-actions-alignment .time-slot-actions {
+    margin-top: 8px;
+}
+
+.management-details .management-booking-info {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.management-add-button {
+    min-height: 38px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.management-add-button:hover {
+    background-color: var(--color-primary-soft);
+}
+
+.management-secondary-action {
+    min-height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #e4cbcd;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.management-secondary-action:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background-color: #fcf2f3;
+}
+
+.management-add-button:focus-visible,
+.management-secondary-action:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.management-secondary-action:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.management-actions-separated {
+    border-top: 1px solid var(--color-border);
 }

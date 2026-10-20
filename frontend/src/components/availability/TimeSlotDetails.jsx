@@ -7,15 +7,28 @@ const statusLabels = {
     CANCELLED: 'Cancelled',
 }
 
+const trainingFocusLabels = {
+    KIHON: 'Kihon',
+    KATA: 'Kata',
+    KUMITE: 'Kumite',
+}
+
+const experienceLevelLabels = {
+    BEGINNER: 'Beginner',
+    INTERMEDIATE: 'Intermediate',
+    ADVANCED: 'Advanced',
+}
+
 function TimeSlotDetails({ slot, onScheduleChanged }) {
+    const isBooked = slot?.status === 'BOOKED'
+    const booking = isBooked ? slot.booking : null
+
     return (
         <div className="management-details">
-            <h3>Training details</h3>
+            <h3>{isBooked ? 'Booking details' : 'Training details'}</h3>
 
             {!slot ? (
-                <p>
-                    Select a time slot to see its details.
-                </p>
+                <p>Select a time slot to see its details.</p>
             ) : (
                 <>
                     <span
@@ -24,42 +37,70 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                         {statusLabels[slot.status] ?? slot.status}
                     </span>
 
-                    <dl className="management-detail-list">
-                        <div>
-                            <dt>Date</dt>
-                            <dd>{formatDate(slot.startAt)}</dd>
-                        </div>
+                    {isBooked && (
+                        booking ? (
+                            <dl className="management-detail-list management-booking-info">
+                                <div>
+                                    <dt>Full name</dt>
+                                    <dd>{booking.customerName}</dd>
+                                </div>
 
-                        <div>
-                            <dt>Time</dt>
-                            <dd>
-                                {formatTimeRange(slot.startAt, slot.endAt)}
-                            </dd>
-                        </div>
+                                <div>
+                                    <dt>Email address</dt>
+                                    <dd>{booking.customerEmail}</dd>
+                                </div>
 
-                        <div>
-                            <dt>Duration</dt>
-                            <dd>{slot.durationMinutes} minutes</dd>
-                        </div>
+                                <div>
+                                    <dt>Training focus</dt>
+                                    <dd>
+                                        {trainingFocusLabels[booking.trainingFocus]
+                                            ?? booking.trainingFocus
+                                            ?? 'Not specified'}
+                                    </dd>
+                                </div>
 
-                        {slot.cancelledAt && (
-                            <div>
-                                <dt>Cancelled on</dt>
-                                <dd>{formatDate(slot.cancelledAt)}</dd>
-                            </div>
-                        )}
-                    </dl>
-
-                    {slot.status === 'BOOKED' && (
-                        <p className="management-detail-note">
-                            This time slot has a reservation.
-                        </p>
+                                <div>
+                                    <dt>Experience level</dt>
+                                    <dd>
+                                        {experienceLevelLabels[booking.experienceLevel]
+                                            ?? booking.experienceLevel
+                                            ?? 'Not specified'}
+                                    </dd>
+                                </div>
+                            </dl>
+                        ) : (
+                            <p className="management-detail-note" role="status">
+                                Booking details are currently unavailable.
+                            </p>
+                        )
                     )}
 
-                    {slot.status === 'AVAILABLE' && (
-                        <p className="management-detail-note">
-                            This time slot is available for booking.
-                        </p>
+                    {!isBooked && (
+                        <dl className="management-detail-list">
+                            <div>
+                                <dt>Date</dt>
+                                <dd>{formatDate(slot.startAt)}</dd>
+                            </div>
+
+                            <div>
+                                <dt>Time</dt>
+                                <dd>
+                                    {formatTimeRange(slot.startAt, slot.endAt)}
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Duration</dt>
+                                <dd>{slot.durationMinutes} minutes</dd>
+                            </div>
+
+                            {slot.cancelledAt && (
+                                <div>
+                                    <dt>Cancelled on</dt>
+                                    <dd>{formatDate(slot.cancelledAt)}</dd>
+                                </div>
+                            )}
+                        </dl>
                     )}
 
                     {slot.status === 'CANCELLED' && (
@@ -68,11 +109,19 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                         </p>
                     )}
 
-                    <TimeSlotActions
-                        key={`${slot.id}-${slot.status}-${slot.bookingId ?? ''}`}
-                        slot={slot}
-                        onScheduleChanged={onScheduleChanged}
-                    />
+                    <div
+                        className={
+                            slot.status === 'AVAILABLE'
+                                ? 'management-actions-alignment management-actions-separated'
+                                : 'management-actions-alignment'
+                        }
+                    >
+                        <TimeSlotActions
+                            key={`${slot.id}-${slot.status}-${slot.bookingId ?? ''}`}
+                            slot={slot}
+                            onScheduleChanged={onScheduleChanged}
+                        />
+                    </div>
                 </>
             )}
         </div>

@@ -50,7 +50,7 @@ function TimeSlotActions({ slot, onScheduleChanged }) {
                 </p>
             ) : !isConfirming ? (
                 <button
-                    className="management-danger-button"
+                    className="management-secondary-action"
                     type="button"
                     onClick={() => setIsConfirming(true)}
                 >

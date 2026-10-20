@@ -26,6 +26,8 @@ function ManageAvailability({
         refreshSchedule,
         statusFilter,
         changeStatusFilter,
+        focusFilter,
+        changeFocusFilter,
     } = useManageAvailability(refreshVersion)
 
     function handleTimeSlotCreated() {
@@ -56,7 +58,7 @@ function ManageAvailability({
 
                 <div className="management-heading-actions">
                     <button
-                        className="primary-button"
+                        className="management-add-button"
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
                     >
@@ -101,6 +103,8 @@ function ManageAvailability({
                         onSlotSelect={selectSlot}
                         statusFilter={statusFilter}
                         onStatusFilterChange={changeStatusFilter}
+                        focusFilter={focusFilter}
+                        onFocusFilterChange={changeFocusFilter}
                     />
 
                     <TimeSlotDetails
