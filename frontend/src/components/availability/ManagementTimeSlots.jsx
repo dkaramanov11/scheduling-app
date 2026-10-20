@@ -81,30 +81,43 @@ function ManagementTimeSlots({
                 </p>
             ) : (
                 <ul className="management-slot-list">
-                    {timeSlots.map((slot) => (
-                        <li key={slot.id}>
-                            <button
-                                type="button"
-                                className={
-                                    selectedSlot?.id === slot.id
-                                        ? 'management-slot selected'
-                                        : 'management-slot'
-                                }
-                                aria-pressed={selectedSlot?.id === slot.id}
-                                onClick={() => onSlotSelect(slot.id)}
-                            >
-                                <span className="management-slot-time">
-                                    {formatTimeRange(slot.startAt, slot.endAt)}
-                                </span>
+                    {timeSlots.map((slot) => {
+                        const isSelected = selectedSlot?.id === slot.id
+                        const hasConflict = slot.googleCalendarConflict === true
 
-                                <span
-                                    className={`slot-status status-${slot.status.toLowerCase()}`}
+                        const className = [
+                            'management-slot',
+                            isSelected && 'selected',
+                            hasConflict && 'calendar-conflict',
+                        ].filter(Boolean).join(' ')
+
+                        return (
+                            <li key={slot.id}>
+                                <button
+                                    type="button"
+                                    className={className}
+                                    aria-pressed={isSelected}
+                                    onClick={() => onSlotSelect(slot.id)}
                                 >
-                                    {statusLabels[slot.status] ?? slot.status}
-                                </span>
-                            </button>
-                        </li>
-                    ))}
+                                    <span className="management-slot-time">
+                                        {formatTimeRange(slot.startAt, slot.endAt)}
+                                    </span>
+
+                                    <span
+                                        className={`slot-status status-${slot.status.toLowerCase()}`}
+                                    >
+                                        {statusLabels[slot.status] ?? slot.status}
+                                    </span>
+
+                                    {hasConflict && (
+                                        <span className="management-calendar-conflict">
+                                            Busy in Google Calendar
+                                        </span>
+                                    )}
+                                </button>
+                            </li>
+                        )
+                    })}
                 </ul>
             )}
         </div>
