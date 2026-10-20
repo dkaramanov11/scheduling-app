@@ -1,0 +1,105 @@
+.karate-fact {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+    margin-top: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 8px;
+    background-color: var(--color-surface);
+}
+
+.karate-fact h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 16px;
+    text-align: left;
+    letter-spacing: -0.3px;
+}
+.karate-fact-content {
+    min-width: 0;
+    text-align: center;
+}
+
+.karate-fact-text p {
+    margin: 0;
+    color: #9f252b;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.karate-fact-text .karate-fact-loading {
+    color: var(--color-muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-style: normal;
+}
+
+.karate-fact-text p + p {
+    margin-top: 6px;
+}
+
+.karate-fact-attribution {
+    display: block;
+    margin-top: 8px;
+    color: var(--color-muted);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.karate-fact .karate-fact-error {
+    margin: 8px 0 0;
+    color: #a3161b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.karate-fact-button {
+    width: auto;
+    justify-self: end;
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.karate-fact-button:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-soft);
+}
+
+.karate-fact-button:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.karate-fact-button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+@media (max-width: 760px) {
+    .karate-fact {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        gap: 12px;
+        padding: 18px;
+        text-align: center;
+    }
+
+    .karate-fact-button {
+        max-width: 100%;
+        justify-self: center;
+    }
+}

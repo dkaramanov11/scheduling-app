@@ -5,6 +5,7 @@ import Hero from './components/Hero'
 import CoachSection from './components/CoachSection'
 import ManageAvailability from './components/availability/ManageAvailability'
 import './styles/App.css'
+import KarateFact from './components/KarateFact'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)
@@ -33,6 +34,8 @@ function App() {
                 </div>
 
                 <CoachSection />
+
+                <KarateFact />
 
                 <ManageAvailability
                     refreshVersion={managementVersion}
