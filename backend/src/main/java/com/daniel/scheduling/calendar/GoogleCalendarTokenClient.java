@@ -128,6 +128,110 @@ public class GoogleCalendarTokenClient {
         }
     }
 
+    public Tokens refreshAccessToken(String refreshToken) {
+        if (!properties.isConfigured()) {
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Google Calendar connection is not configured"
+            );
+        }
+
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Please reconnect Google Calendar"
+            );
+        }
+
+        String body = "grant_type=refresh_token"
+                + "&refresh_token=" + encode(refreshToken)
+                + "&client_id=" + encode(properties.getClientId())
+                + "&client_secret=" + encode(properties.getClientSecret());
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://oauth2.googleapis.com/token"))
+                .timeout(Duration.ofSeconds(15))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+
+        HttpResponse<String> response;
+
+        try {
+            response = httpClient.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)
+            );
+        } catch (HttpTimeoutException exception) {
+            throw error(
+                    HttpStatus.GATEWAY_TIMEOUT,
+                    "Google Calendar connection timed out. Please try again."
+            );
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Google Calendar connection was interrupted"
+            );
+        } catch (IOException exception) {
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Google Calendar is temporarily unavailable"
+            );
+        }
+
+        if (response.statusCode() == 400
+                || response.statusCode() == 401) {
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Google Calendar access could not be renewed. Please reconnect."
+            );
+        }
+
+        if (response.statusCode() != 200) {
+            throw error(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Google Calendar is temporarily unavailable"
+            );
+        }
+
+        try {
+            var json = objectMapper.readTree(response.body());
+
+            String accessToken = json.path("access_token").asText("");
+            String tokenType = json.path("token_type").asText("");
+            long expiresIn = json.path("expires_in").asLong(0);
+
+            // Google may omit these fields when refreshing.
+            String renewedRefreshToken =
+                    json.path("refresh_token").asText("");
+
+            String scope = json.path("scope").asText("");
+
+            if (accessToken.isBlank()
+                    || !"Bearer".equalsIgnoreCase(tokenType)
+                    || expiresIn <= 0
+                    || expiresIn > 86400) {
+                throw new IllegalArgumentException();
+            }
+
+            return new Tokens(
+                    accessToken,
+                    renewedRefreshToken.isBlank()
+                            ? refreshToken
+                            : renewedRefreshToken,
+                    Instant.now().plusSeconds(expiresIn),
+                    scope
+            );
+        } catch (RuntimeException exception) {
+            throw error(
+                    HttpStatus.BAD_GATEWAY,
+                    "Google returned an invalid connection response"
+            );
+        }
+    }
+
     private static String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
