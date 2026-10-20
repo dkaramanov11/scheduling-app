@@ -34,3 +34,22 @@ export async function createTimeSlot(timeSlot) {
 
     return response.json()
 }
+
+export async function getManageTimeSlots(signal) {
+    const response = await fetch('/api/time-slots/manage', { signal })
+
+    if (!response.ok) {
+        const problem = await response.json().catch(() => null)
+
+        const error = new Error(
+            problem?.detail ||
+            'Unable to load the training schedule. Please try again.'
+        )
+
+        error.status = response.status
+
+        throw error
+    }
+
+    return response.json()
+}
