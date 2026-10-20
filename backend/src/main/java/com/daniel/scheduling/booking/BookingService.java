@@ -1,14 +1,15 @@
 package com.daniel.scheduling.booking;
 
 import com.daniel.scheduling.booking.dto.CreateBookingRequest;
+import com.daniel.scheduling.calendar.GoogleCalendarClient;
 import com.daniel.scheduling.timeslot.TimeSlot;
 import com.daniel.scheduling.timeslot.TimeSlotRepository;
+import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
 
 import java.time.Instant;
 
@@ -18,6 +19,7 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final TimeSlotRepository timeSlotRepository;
+    private final GoogleCalendarClient calendarClient;
 
     @Transactional
     public Booking create(CreateBookingRequest request) {
@@ -49,6 +51,35 @@ public class BookingService {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "Time slot is already booked"
+            );
+        }
+
+        // Check Google Calendar before creating the booking.
+        var busyPeriods = calendarClient.findBusyPeriods(
+                timeSlot.getStartAt(),
+                timeSlot.getEndAt()
+        );
+
+        boolean hasCalendarConflict = busyPeriods.stream()
+                .anyMatch(period -> period.overlaps(
+                        timeSlot.getStartAt(),
+                        timeSlot.getEndAt()
+                ));
+
+        if (hasCalendarConflict) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Time slot is unavailable due to a Google Calendar event"
+            );
+        }
+
+        // Check again because the Google request may take time.
+        now = Instant.now();
+
+        if (!timeSlot.getStartAt().isAfter(now)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot book a time slot that has already started"
             );
         }
 

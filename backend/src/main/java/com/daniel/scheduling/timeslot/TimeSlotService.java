@@ -12,6 +12,8 @@ import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
 import com.daniel.scheduling.booking.Booking;
 import com.daniel.scheduling.booking.BookingRepository;
 import com.daniel.scheduling.booking.dto.BookingSummaryResponse;
+import com.daniel.scheduling.calendar.GoogleCalendarAvailabilityService;
+import java.util.Set;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class TimeSlotService {
 
     private final TimeSlotRepository timeSlotRepository;
     private final BookingRepository bookingRepository;
+    private final GoogleCalendarAvailabilityService calendarAvailabilityService;
 
     @Transactional
     public TimeSlot create(CreateTimeSlotRequest request) {
@@ -61,11 +64,18 @@ public class TimeSlotService {
 
     @Transactional(readOnly = true)
     public List<TimeSlot> findAvailable() {
-        return timeSlotRepository
+        List<TimeSlot> timeSlots = timeSlotRepository
                 .findByStatusAndStartAtAfterOrderByStartAtAscIdAsc(
                         TimeSlotStatus.AVAILABLE,
                         Instant.now()
                 );
+
+        Set<Long> conflictingIds =
+                calendarAvailabilityService.findConflictingSlotIds(timeSlots);
+
+        return timeSlots.stream()
+                .filter(slot -> !conflictingIds.contains(slot.getId()))
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -91,6 +101,13 @@ public class TimeSlotService {
             return List.of();
         }
 
+        List<TimeSlot> activeSlots = timeSlots.stream()
+                .filter(slot -> slot.getStatus() != TimeSlotStatus.CANCELLED)
+                .toList();
+
+        Set<Long> conflictingIds =
+                calendarAvailabilityService.findConflictingSlotIds(activeSlots);
+
         List<Long> timeSlotIds = timeSlots.stream()
                 .map(TimeSlot::getId)
                 .toList();
@@ -106,7 +123,8 @@ public class TimeSlotService {
         return timeSlots.stream()
                 .map(timeSlot -> TimeSlotManagementResponse.from(
                         timeSlot,
-                        bookingsByTimeSlot.get(timeSlot.getId())
+                        bookingsByTimeSlot.get(timeSlot.getId()),
+                        conflictingIds.contains(timeSlot.getId())
                 ))
                 .toList();
     }

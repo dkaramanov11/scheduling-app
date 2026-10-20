@@ -3,8 +3,10 @@ package com.daniel.scheduling.calendar;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Propagation;
 import java.time.Instant;
 
 import java.util.Arrays;
@@ -71,7 +73,7 @@ public class GoogleCalendarConnectionService {
         repository.saveAndFlush(connection);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String getValidAccessToken() {
         GoogleCalendarConnection connection = repository
                 .findOneById(1L)
