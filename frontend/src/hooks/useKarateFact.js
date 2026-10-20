@@ -43,11 +43,7 @@ export default function useKarateFact() {
         let isActive = true
         const savedFact = readSavedFact()
 
-        if (savedFact) {
-            setFact(savedFact)
-            setIsLoading(false)
-            return
-        }
+        if (savedFact) return
 
         requestFact()
             .then((nextFact) => {

@@ -31,7 +31,7 @@ function KarateFact() {
                 )}
 
                 <span className="karate-fact-attribution">
-                    AI-generated from curated karate information
+                    AI-generated 
                 </span>
             </div>
 

@@ -18,17 +18,15 @@ public class KarateFactService {
     private final AiRequestLimiter requestLimiter;
     private final GeminiClient geminiClient;
 
-    /*
-     * Sources:
-     * https://www.theworldgames.org/sports/Karate-22
-     * https://olympic.ca/sports/karate/
-     */
-    private static final List<String> VERIFIED_FACTS = List.of(
-            "The Japanese word karate means empty hand.",
-            "Karate competition includes kata and kumite.",
-            "Kata involves performing a sequence of karate techniques.",
-            "Kumite is the sparring discipline of karate.",
-            "Karate made its Olympic debut at the Tokyo 2020 Games."
+    private static final List<String> TOPICS = List.of(
+            "karate history and Okinawan origins",
+            "Japanese karate terminology",
+            "kata and its role in karate",
+            "kumite and competition",
+            "dojo etiquette and traditions",
+            "karate styles",
+            "kihon and fundamental techniques",
+            "karate uniforms and belt systems"
     );
 
     public KarateFactResponse generate() {
@@ -39,41 +37,52 @@ public class KarateFactService {
             );
         }
 
-        // Reserve quota before sending the request.
         requestLimiter.acquire();
 
-        int index = ThreadLocalRandom.current()
-                .nextInt(VERIFIED_FACTS.size());
-
-        String selectedFact = VERIFIED_FACTS.get(index);
+        String topic = TOPICS.get(
+                ThreadLocalRandom.current().nextInt(TOPICS.size())
+        );
 
         String prompt = """
-        Rewrite the supplied karate fact in English for a training website.
+                Give one interesting, well-established karate fact about: %s.
 
-        Rules:
-        - Return exactly one short sentence, at most 30 words.
-        - Preserve the meaning and use only the supplied information.
-        - Do not add encouragement, advice, greetings, or promotional text.
-        - Do not start with "Did you know".
-        - Return plain text on one line, without headings or Markdown.
-
-        Supplied fact: %s
-        """.formatted(selectedFact);
+                Rules:
+                - Write in English.
+                - Return one short sentence, at most 25 words.
+                - Choose a specific educational fact, not a generic description.
+                - Avoid myths, disputed claims, and unsupported statistics.
+                - If a detail varies by karate style, identify the style
+                  or clearly state that it varies.
+                - Do not give medical advice or instructions for hurting someone.
+                - No encouragement, greetings, or promotional text.
+                - Do not start with "Did you know".
+                - Return plain text on one line, without headings or Markdown.
+                """.formatted(topic);
 
         String fact = geminiClient.generate(prompt);
 
-        // Reject obvious formatting violations rather than showing Markdown.
+        if (fact == null || fact.isBlank()) {
+            throw unsuitableFact();
+        }
+
+        fact = fact.strip();
+
         if (fact.contains("*")
                 || fact.contains("#")
                 || fact.contains("`")
                 || fact.contains("\n")
+                || fact.contains("\r")
                 || fact.split("\\s+").length > 30) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_GATEWAY,
-                    "The AI service returned an unsuitable fact. Please try again later."
-            );
+            throw unsuitableFact();
         }
 
         return new KarateFactResponse(fact);
+    }
+
+    private ResponseStatusException unsuitableFact() {
+        return new ResponseStatusException(
+                HttpStatus.BAD_GATEWAY,
+                "The AI service returned an unsuitable fact. Please try again later."
+        );
     }
 }
