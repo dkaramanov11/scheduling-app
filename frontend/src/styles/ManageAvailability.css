@@ -280,3 +280,24 @@
     flex-wrap: wrap;
     gap: 12px;
 }
+.management-status-filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.management-status-filter label {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.management-status-filter select {
+    width: 145px;
+    min-height: 34px;
+    padding: 6px 10px;
+    font-size: 12px;
+}

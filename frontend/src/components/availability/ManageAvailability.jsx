@@ -24,6 +24,8 @@ function ManageAvailability({
         changeMonth,
         selectSlot,
         refreshSchedule,
+        statusFilter,
+        changeStatusFilter,
     } = useManageAvailability(refreshVersion)
 
     function handleTimeSlotCreated() {
@@ -106,6 +108,8 @@ function ManageAvailability({
                         timeSlots={dailySlots}
                         selectedSlot={selectedSlot}
                         onSlotSelect={selectSlot}
+                        statusFilter={statusFilter}
+                        onStatusFilterChange={changeStatusFilter}
                     />
 
                     <TimeSlotDetails

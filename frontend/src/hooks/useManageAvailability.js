@@ -4,7 +4,7 @@ import { getDateKey } from '../utils/dateTime'
 
 export default function useManageAvailability(externalVersion = 0) {
     const hasInitialized = useRef(false)
-
+    const [statusFilter, setStatusFilter] = useState('ALL')
     const [timeSlots, setTimeSlots] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
@@ -71,7 +71,9 @@ export default function useManageAvailability(externalVersion = 0) {
     )
 
     const dailySlots = timeSlots.filter(
-        (slot) => getDateKey(slot.startAt) === selectedDate
+        (slot) =>
+            getDateKey(slot.startAt) === selectedDate &&
+            (statusFilter === 'ALL' || slot.status === statusFilter)
     )
 
     const selectedSlot = dailySlots.find(
@@ -93,6 +95,11 @@ export default function useManageAvailability(externalVersion = 0) {
         setRefreshVersion((current) => current + 1)
     }
 
+    function changeStatusFilter(status) {
+        setStatusFilter(status)
+        setSelectedSlotId(null)
+    }
+
     return {
         isLoading,
         error,
@@ -105,5 +112,7 @@ export default function useManageAvailability(externalVersion = 0) {
         changeMonth,
         selectSlot: setSelectedSlotId,
         refreshSchedule,
+        statusFilter,
+        changeStatusFilter,
     }
 }

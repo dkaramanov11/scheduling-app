@@ -6,11 +6,20 @@ const statusLabels = {
     CANCELLED: 'Cancelled',
 }
 
+const emptyMessages = {
+    ALL: 'No time slots on this date.',
+    AVAILABLE: 'No available sessions on this date.',
+    BOOKED: 'No booked sessions on this date.',
+    CANCELLED: 'No cancelled time slots on this date.',
+}
+
 function ManagementTimeSlots({
                                  selectedDate,
                                  timeSlots,
                                  selectedSlot,
                                  onSlotSelect,
+                                 statusFilter,
+                                 onStatusFilterChange,
                              }) {
     return (
         <div className="management-times">
@@ -20,10 +29,31 @@ function ManagementTimeSlots({
                     : 'Choose a date'}
             </h3>
 
+            <div className="management-status-filter form-field">
+                <label htmlFor="management-status-filter">
+                    Show
+                </label>
+
+                <select
+                    id="management-status-filter"
+                    value={statusFilter}
+                    onChange={(event) =>
+                        onStatusFilterChange(event.target.value)
+                    }
+                >
+                    <option value="ALL">All statuses</option>
+                    <option value="AVAILABLE">Available</option>
+                    <option value="BOOKED">Booked</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+            </div>
+
             {!selectedDate ? (
                 <p>Select a day in the calendar to view its schedule.</p>
             ) : timeSlots.length === 0 ? (
-                <p>No time slots on this date.</p>
+                <p role="status">
+                    {emptyMessages[statusFilter]}
+                </p>
             ) : (
                 <ul className="management-slot-list">
                     {timeSlots.map((slot) => (
