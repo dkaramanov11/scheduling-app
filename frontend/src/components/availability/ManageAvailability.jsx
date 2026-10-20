@@ -56,15 +56,6 @@ function ManageAvailability({
 
                 <div className="management-heading-actions">
                     <button
-                        className="management-refresh"
-                        type="button"
-                        disabled={isLoading}
-                        onClick={refreshSchedule}
-                    >
-                        {isLoading ? 'Refreshing...' : 'Refresh schedule'}
-                    </button>
-
-                    <button
                         className="primary-button"
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
