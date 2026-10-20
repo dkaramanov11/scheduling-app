@@ -316,3 +316,63 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.management-filters {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.management-filters {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 16px;
+}
+
+.management-filter label {
+    padding-right: 7px;
+    flex-shrink: 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.management-filter select {
+    width: 112px;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.management-filter select:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    .management-filters {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .management-filter {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .management-filter select {
+        width: 100%;
+        min-height: 40px;
+    }
+}

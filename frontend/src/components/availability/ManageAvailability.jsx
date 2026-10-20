@@ -26,6 +26,8 @@ function ManageAvailability({
         refreshSchedule,
         statusFilter,
         changeStatusFilter,
+        focusFilter,
+        changeFocusFilter,
     } = useManageAvailability(refreshVersion)
 
     function handleTimeSlotCreated() {
@@ -101,6 +103,8 @@ function ManageAvailability({
                         onSlotSelect={selectSlot}
                         statusFilter={statusFilter}
                         onStatusFilterChange={changeStatusFilter}
+                        focusFilter={focusFilter}
+                        onFocusFilterChange={changeFocusFilter}
                     />
 
                     <TimeSlotDetails
