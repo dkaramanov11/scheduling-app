@@ -14,32 +14,32 @@
     font-weight: 400;
 }
 
-.session-booking .booking-form {
+.booking-panel .booking-form {
     max-width: none;
     gap: 14px;
     margin-top: 20px;
 }
 
-.session-booking .booking-form h3 {
+.booking-panel .booking-form h3 {
     font-size: 16px;
 }
 
-.session-booking .form-field {
+.booking-panel .form-field {
     gap: 6px;
 }
 
-.session-booking .form-field label {
+.booking-panel .form-field label {
     font-size: 12px;
 }
 
-.session-booking .form-field input,
-.session-booking .form-field select {
+.booking-panel .form-field input,
+.booking-panel .form-field select {
     min-height: 40px;
     padding: 10px 12px;
     font-size: 14px;
 }
 
-.session-booking .primary-button {
+.booking-panel .primary-button {
     width: 100%;
 }
 
@@ -52,4 +52,10 @@
     color: #a3161b;
     font-size: 13px;
     line-height: 1.5;
+}
+
+@media (max-width: 1000px) {
+    .booking-panel .booking-form {
+        margin-top: 0;
+    }
 }
