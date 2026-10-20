@@ -9,7 +9,7 @@ function Header() {
                 aria-label="Dojo Sessions home"
             >
                 <span className="brand-mark" aria-hidden="true" />
-                <span>DOJO SESSIONS</span>
+                <span>KARATE SESSIONS</span>
             </a>
 
             <nav className="site-navigation" aria-label="Main navigation">
