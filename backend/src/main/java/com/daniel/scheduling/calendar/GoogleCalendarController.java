@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import java.time.Instant;
-import java.util.List;
 
 @RestController
 @Profile("local")
@@ -24,7 +22,6 @@ public class GoogleCalendarController {
     private final GoogleCalendarOAuthService oauthService;
     private final GoogleCalendarTokenClient tokenClient;
     private final GoogleCalendarConnectionService connectionService;
-    private final GoogleCalendarClient calendarClient;
 
     @GetMapping("/connect")
     public ResponseEntity<Void> connect(HttpServletRequest request) {
@@ -88,27 +85,6 @@ public class GoogleCalendarController {
                     "Calendar connection is available locally only"
             );
         }
-    }
-
-    @GetMapping("/busy")
-    public ResponseEntity<List<CalendarBusyPeriod>> findBusyPeriods(
-            @RequestParam Instant from,
-            @RequestParam Instant to,
-            HttpServletRequest request
-    ) {
-        requireLocalAccess(request);
-
-        if (!from.isBefore(to)
-                || to.isAfter(from.plusSeconds(31L * 24 * 60 * 60))) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Choose a valid time range of up to 31 days"
-            );
-        }
-
-        return ResponseEntity.ok()
-                .cacheControl(CacheControl.noStore())
-                .body(calendarClient.findBusyPeriods(from, to));
     }
 
     public record ConnectionResponse(String message) {
