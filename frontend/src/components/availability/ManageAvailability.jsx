@@ -68,9 +68,21 @@ function ManageAvailability({
             </div>
 
             {actionMessage && (
-                <p className="management-feedback management-success" role="status">
-                    {actionMessage}
-                </p>
+                <div
+                    className="management-feedback management-success dismissible-message"
+                    role="status"
+                >
+                    <span>{actionMessage}</span>
+
+                    <button
+                        className="message-dismiss"
+                        type="button"
+                        aria-label="Dismiss notification"
+                        onClick={() => setActionMessage('')}
+                    >
+                        ×
+                    </button>
+                </div>
             )}
 
             {isLoading && (

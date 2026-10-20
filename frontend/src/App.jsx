@@ -6,6 +6,7 @@ import CoachSection from './components/CoachSection'
 import ManageAvailability from './components/availability/ManageAvailability'
 import './styles/App.css'
 import KarateFact from './components/KarateFact'
+import './styles/Notifications.css'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)

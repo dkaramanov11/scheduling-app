@@ -166,7 +166,23 @@ function AvailableTimeSlots({
             <div className="session-booking">
                 {successMessage && (
                     <p className="booking-message success" role="status">
-                        {successMessage}
+                        {successMessage && (
+                            <div
+                                className="booking-message success dismissible-message"
+                                role="status"
+                            >
+                                <span>{successMessage}</span>
+
+                                <button
+                                    className="message-dismiss"
+                                    type="button"
+                                    aria-label="Dismiss notification"
+                                    onClick={() => setSuccessMessage('')}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        )}
                     </p>
                 )}
 
