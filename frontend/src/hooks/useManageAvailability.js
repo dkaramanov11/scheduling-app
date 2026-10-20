@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getManageTimeSlots } from '../services/timeSlotService'
 import { getDateKey } from '../utils/dateTime'
 
-export default function useManageAvailability() {
+export default function useManageAvailability(externalVersion = 0) {
+    const hasInitialized = useRef(false)
+
     const [timeSlots, setTimeSlots] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
@@ -32,16 +34,19 @@ export default function useManageAvailability() {
 
                 setTimeSlots(sortedSlots)
 
-                if (sortedSlots.length > 0) {
-                    const firstDate = getDateKey(sortedSlots[0].startAt)
+                setSelectedSlotId((current) =>
+                    sortedSlots.some((slot) => slot.id === current)
+                        ? current
+                        : null
+                )
 
-                    setSelectedDate((current) => current || firstDate)
-                    setMonth((current) =>
-                        refreshVersion === 0
-                            ? firstDate.slice(0, 7)
-                            : current
-                    )
+                if (!hasInitialized.current && sortedSlots.length > 0) {
+                    const firstDate = getDateKey(sortedSlots[0].startAt)
+                    setSelectedDate(firstDate)
+                    setMonth(firstDate.slice(0, 7))
                 }
+
+                hasInitialized.current = true
             } catch (error) {
                 if (!controller.signal.aborted) {
                     setError(
@@ -59,7 +64,7 @@ export default function useManageAvailability() {
         loadSchedule()
 
         return () => controller.abort()
-    }, [refreshVersion])
+    }, [refreshVersion, externalVersion])
 
     const scheduledDates = new Set(
         timeSlots.map((slot) => getDateKey(slot.startAt))

@@ -6,7 +6,10 @@ import useManageAvailability from '../../hooks/useManageAvailability'
 import '../../styles/ManageAvailability.css'
 import { useState } from 'react'
 
-function ManageAvailability({ onAvailabilityChanged }) {
+function ManageAvailability({
+                                onAvailabilityChanged,
+                                refreshVersion = 0,
+                            }) {
     const [actionMessage, setActionMessage] = useState('')
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const {
@@ -21,7 +24,7 @@ function ManageAvailability({ onAvailabilityChanged }) {
         changeMonth,
         selectSlot,
         refreshSchedule,
-    } = useManageAvailability()
+    } = useManageAvailability(refreshVersion)
 
     function handleTimeSlotCreated() {
         setIsCreateModalOpen(false)

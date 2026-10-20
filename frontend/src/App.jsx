@@ -7,11 +7,15 @@ import ManageAvailability from './components/availability/ManageAvailability'
 import './styles/App.css'
 
 function App() {
-
     const [availabilityVersion, setAvailabilityVersion] = useState(0)
+    const [managementVersion, setManagementVersion] = useState(0)
 
     function handleAvailabilityChanged() {
         setAvailabilityVersion((current) => current + 1)
+    }
+
+    function handleBookingChanged() {
+        setManagementVersion((current) => current + 1)
     }
 
     return (
@@ -22,12 +26,16 @@ function App() {
                 <Hero />
 
                 <div id="booking">
-                    <AvailableTimeSlots key={availabilityVersion} />
+                    <AvailableTimeSlots
+                        refreshVersion={availabilityVersion}
+                        onBookingChanged={handleBookingChanged}
+                    />
                 </div>
 
                 <CoachSection />
 
                 <ManageAvailability
+                    refreshVersion={managementVersion}
                     onAvailabilityChanged={handleAvailabilityChanged}
                 />
             </main>
