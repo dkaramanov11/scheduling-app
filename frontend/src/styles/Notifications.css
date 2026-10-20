@@ -1,0 +1,60 @@
+/* Shared close button */
+.dismissible-message {
+    position: relative;
+}
+
+.dismissible-message > .message-dismiss {
+    all: unset;
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: inherit;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.message-dismiss:hover {
+    opacity: 0.65;
+}
+
+.message-dismiss:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+/* Coach notification */
+.management-section .management-feedback.dismissible-message {
+    display: block;
+    height: auto;
+    min-height: 0;
+    margin: 0 0 16px;
+    padding: 25px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Booking notification */
+.session-booking .booking-message.dismissible-message {
+    display: block;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 10px 15px 10px 15px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.session-booking .dismissible-message > .message-dismiss {
+    right: 8px;
+    font-size: 25px;
+}
+
+/* Remove extra spacing around notification text */
+.dismissible-message > span {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
