@@ -15,6 +15,7 @@ public class GoogleCalendarProperties {
     private String clientSecret = "";
     private String redirectUri =
             "http://localhost:8080/api/google-calendar/callback";
+    private String encryptionKey = "";
 
     public boolean isConfigured() {
         return clientId != null && !clientId.isBlank()
