@@ -58,7 +58,7 @@ function ManageAvailability({
 
                 <div className="management-heading-actions">
                     <button
-                        className="primary-button"
+                        className="management-add-button"
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
                     >

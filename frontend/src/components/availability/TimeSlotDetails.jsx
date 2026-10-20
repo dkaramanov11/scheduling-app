@@ -103,19 +103,19 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                         </dl>
                     )}
 
-                    {slot.status === 'AVAILABLE' && (
-                        <p className="management-detail-note">
-                            This time slot is available for booking.
-                        </p>
-                    )}
-
                     {slot.status === 'CANCELLED' && (
                         <p className="management-detail-note">
                             This time slot has been removed from the schedule.
                         </p>
                     )}
 
-                    <div className="management-actions-alignment">
+                    <div
+                        className={
+                            slot.status === 'AVAILABLE'
+                                ? 'management-actions-alignment management-actions-separated'
+                                : 'management-actions-alignment'
+                        }
+                    >
                         <TimeSlotActions
                             key={`${slot.id}-${slot.status}-${slot.bookingId ?? ''}`}
                             slot={slot}
