@@ -11,6 +11,7 @@ import com.daniel.scheduling.timeslot.enums.TimeSlotStatus;
 import com.daniel.scheduling.timeslot.dto.TimeSlotManagementResponse;
 import com.daniel.scheduling.booking.Booking;
 import com.daniel.scheduling.booking.BookingRepository;
+import com.daniel.scheduling.booking.dto.BookingSummaryResponse;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -94,18 +95,18 @@ public class TimeSlotService {
                 .map(TimeSlot::getId)
                 .toList();
 
-        Map<Long, Long> bookingIds = bookingRepository
-                .findByTimeSlot_IdIn(timeSlotIds)
-                .stream()
-                .collect(Collectors.toMap(
-                        booking -> booking.getTimeSlot().getId(),
-                        Booking::getId
-                ));
+        Map<Long, BookingSummaryResponse> bookingsByTimeSlot =
+                bookingRepository.findByTimeSlot_IdIn(timeSlotIds)
+                        .stream()
+                        .collect(Collectors.toMap(
+                                booking -> booking.getTimeSlot().getId(),
+                                BookingSummaryResponse::from
+                        ));
 
         return timeSlots.stream()
                 .map(timeSlot -> TimeSlotManagementResponse.from(
                         timeSlot,
-                        bookingIds.get(timeSlot.getId())
+                        bookingsByTimeSlot.get(timeSlot.getId())
                 ))
                 .toList();
     }
