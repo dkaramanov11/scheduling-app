@@ -48,11 +48,6 @@
     font-size: 18px;
 }
 
-.session-information .session-timezone {
-    margin-top: 16px;
-    font-size: 14px;
-}
-
 .training-tags {
     display: flex;
     flex-wrap: wrap;
@@ -153,4 +148,34 @@
         border-top: 1px solid var(--color-border);
         border-left: none;
     }
+}
+
+.session-details {
+    display: grid;
+    gap: 14px;
+    margin: 22px 0 0;
+}
+
+.session-details > div {
+    display: grid;
+    gap: 4px;
+}
+
+.session-details dt {
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.session-details dd {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.session-information .session-selection-hint {
+    margin-top: 20px;
+    font-size: 13px;
 }

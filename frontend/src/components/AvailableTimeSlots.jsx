@@ -25,6 +25,11 @@ const headingFormatter = new Intl.DateTimeFormat('en-GB', {
     month: 'long',
 })
 
+const sessionDateFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Skopje',
+    dateStyle: 'full',
+})
+
 function getDateKey(value) {
     const parts = dateKeyFormatter.formatToParts(new Date(value))
     const year = parts.find((part) => part.type === 'year').value
@@ -131,8 +136,38 @@ function AvailableTimeSlots() {
 
                 <div className="session-information">
                     <h3>Private karate session</h3>
-                    <p>Individual coaching tailored to your goals.</p>
-                    <p className="session-timezone">Time zone: Europe/Skopje</p>
+                    <p>One-to-one training with Daniel Karamanov.</p>
+
+                    {selectedSlot ? (
+                        <dl className="session-details">
+                            <div>
+                                <dt>Date</dt>
+                                <dd>
+                                    {sessionDateFormatter.format(
+                                        new Date(selectedSlot.startAt)
+                                    )}
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Time</dt>
+                                <dd>
+                                    {timeFormatter.format(new Date(selectedSlot.startAt))}
+                                    {' – '}
+                                    {timeFormatter.format(new Date(selectedSlot.endAt))}
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Duration</dt>
+                                <dd>{selectedSlot.durationMinutes} minutes</dd>
+                            </div>
+                        </dl>
+                    ) : (
+                        <p className="session-selection-hint">
+                            Choose a date and time to see your session details.
+                        </p>
+                    )}
 
                     <div className="training-tags" aria-label="Training areas">
                         <span>Kihon</span>
