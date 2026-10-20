@@ -53,3 +53,21 @@ export async function getManageTimeSlots(signal) {
 
     return response.json()
 }
+
+export async function cancelTimeSlot(timeSlotId) {
+    const response = await fetch(`/api/time-slots/${timeSlotId}/cancel`, {
+        method: 'PATCH',
+    })
+
+    if (!response.ok) {
+        const problem = await response.json().catch(() => null)
+
+        const error = new Error(
+            problem?.detail ||
+            'Unable to remove the time slot. Please try again.'
+        )
+
+        error.status = response.status
+        throw error
+    }
+}

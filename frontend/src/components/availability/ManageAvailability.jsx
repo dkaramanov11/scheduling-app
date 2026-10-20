@@ -4,8 +4,10 @@ import ManagementTimeSlots from './ManagementTimeSlots'
 import TimeSlotDetails from './TimeSlotDetails'
 import useManageAvailability from '../../hooks/useManageAvailability'
 import '../../styles/ManageAvailability.css'
+import { useState } from 'react'
 
 function ManageAvailability({ onAvailabilityChanged }) {
+    const [actionMessage, setActionMessage] = useState('')
     const {
         isLoading,
         error,
@@ -21,6 +23,12 @@ function ManageAvailability({ onAvailabilityChanged }) {
     } = useManageAvailability()
 
     function handleTimeSlotCreated() {
+        refreshSchedule()
+        onAvailabilityChanged()
+    }
+
+    function handleScheduleChanged(message) {
+        setActionMessage(message)
         refreshSchedule()
         onAvailabilityChanged()
     }
@@ -47,6 +55,12 @@ function ManageAvailability({ onAvailabilityChanged }) {
                     {isLoading ? 'Refreshing...' : 'Refresh schedule'}
                 </button>
             </div>
+
+            {actionMessage && (
+                <p className="management-feedback management-success" role="status">
+                    {actionMessage}
+                </p>
+            )}
 
             {isLoading && (
                 <p className="management-feedback" role="status">
@@ -78,7 +92,10 @@ function ManageAvailability({ onAvailabilityChanged }) {
                         onSlotSelect={selectSlot}
                     />
 
-                    <TimeSlotDetails slot={selectedSlot} />
+                    <TimeSlotDetails
+                        slot={selectedSlot}
+                        onScheduleChanged={handleScheduleChanged}
+                    />
                 </div>
             )}
 

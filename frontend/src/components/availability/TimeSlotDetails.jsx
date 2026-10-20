@@ -1,4 +1,5 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
+import TimeSlotActions from './TimeSlotActions'
 
 const statusLabels = {
     AVAILABLE: 'Available',
@@ -6,7 +7,7 @@ const statusLabels = {
     CANCELLED: 'Cancelled',
 }
 
-function TimeSlotDetails({ slot }) {
+function TimeSlotDetails({ slot, onScheduleChanged }) {
     return (
         <div className="management-details">
             <h3>Training details</h3>
@@ -66,6 +67,12 @@ function TimeSlotDetails({ slot }) {
                             This time slot has been removed from the schedule.
                         </p>
                     )}
+
+                    <TimeSlotActions
+                        key={`${slot.id}-${slot.status}-${slot.bookingId ?? ''}`}
+                        slot={slot}
+                        onScheduleChanged={onScheduleChanged}
+                    />
                 </>
             )}
         </div>

@@ -234,3 +234,50 @@
         border-left: none;
     }
 }
+
+.time-slot-actions {
+    margin-top: 20px;
+}
+
+.management-danger-button {
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 6px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.management-danger-button:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+}
+
+.management-danger-button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.management-confirmation {
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+}
+
+.management-confirmation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.time-slot-actions .management-action-error {
+    margin-top: 12px;
+    color: #a3161b;
+}
+
+.management-success {
+    background-color: #edf7ef;
+    color: #236332;
+}
