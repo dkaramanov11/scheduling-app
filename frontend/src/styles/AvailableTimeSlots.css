@@ -24,28 +24,43 @@
     min-width: 0;
 }
 
+/* Continuous separators spanning both grid rows. */
+.booking-panel::before,
+.booking-panel::after {
+    content: "";
+    grid-row: 1 / -1;
+    align-self: stretch;
+    justify-self: start;
+    width: 1px;
+    background-color: var(--color-border);
+    pointer-events: none;
+}
+
+.booking-panel::before {
+    grid-column: 2;
+}
+
+.booking-panel::after {
+    grid-column: 3;
+}
+
 .booking-panel > .booking-calendar {
     grid-area: calendar;
 }
 
 .booking-panel > .session-booking {
     grid-area: times;
+    padding-left: 24px;
 }
 
 .booking-panel > .booking-form {
     grid-area: form;
+    padding-left: 24px;
 }
 
 .booking-panel > .session-summary {
     grid-area: summary;
     padding-left: 24px;
-    border-left: 1px solid var(--color-border);
-}
-
-.booking-panel > .session-booking,
-.booking-panel > .booking-form {
-    padding-left: 24px;
-    border-left: 1px solid var(--color-border);
 }
 
 .availability h2 {
@@ -123,6 +138,11 @@
     color: #ffffff;
 }
 
+.time-slot-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
 .session-booking .booking-message {
     margin-bottom: 16px;
     padding: 12px;
@@ -140,6 +160,18 @@
 .session-booking .time-selection-hint {
     margin-top: 16px;
     font-size: 13px;
+}
+
+.session-booking .session-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 20px;
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .booking-calendar .calendar-hint {
@@ -186,11 +218,14 @@
         gap: 24px;
     }
 
+    .booking-panel::after {
+        display: none;
+    }
+
     .booking-panel > .session-summary {
         padding-top: 24px;
         padding-left: 0;
         border-top: 1px solid var(--color-border);
-        border-left: none;
     }
 }
 
@@ -206,7 +241,13 @@
             "times"
             "summary"
             "form";
+        grid-template-rows: auto;
         gap: 24px;
+    }
+
+    .booking-panel::before,
+    .booking-panel::after {
+        display: none;
     }
 
     .booking-panel > .session-booking,
@@ -215,6 +256,9 @@
         padding-top: 20px;
         padding-left: 0;
         border-top: 1px solid var(--color-border);
-        border-left: none;
+    }
+
+    .session-booking .session-empty-state {
+        min-height: 100px;
     }
 }

@@ -201,7 +201,9 @@ function AvailableTimeSlots({
                         </h3>
 
                         {!selectedDate && (
-                            <p>Select an available date in the calendar.</p>
+                            <p className="session-empty-state">
+                                Select an available date in the calendar.
+                            </p>
                         )}
 
                         {selectedDate && dailySlots.length === 0 && (
@@ -239,7 +241,7 @@ function AvailableTimeSlots({
                         </ul>
 
                         {!selectedSlot && dailySlots.length > 0 && (
-                            <p className="time-selection-hint">
+                            <p className="session-empty-state">
                                 Choose a time to continue.
                             </p>
                         )}
