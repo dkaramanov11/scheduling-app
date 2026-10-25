@@ -1,4 +1,5 @@
 import { formatTime } from '../../utils/dateTime'
+import '../../styles/booking/AvailableSessionTimes.css'
 
 const headingFormatter = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'UTC',

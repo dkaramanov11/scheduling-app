@@ -1,4 +1,5 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
+import '../../styles/booking/SessionSummary.css'
 
 function SessionSummary({ selectedSlot }) {
     return (
