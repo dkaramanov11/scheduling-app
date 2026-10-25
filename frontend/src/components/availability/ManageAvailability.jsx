@@ -3,7 +3,7 @@ import CreateTimeSlotModal from './CreateTimeSlotModal'
 import ManagementTimeSlots from './ManagementTimeSlots'
 import TimeSlotDetails from './TimeSlotDetails'
 import useManageAvailability from '../../hooks/useManageAvailability'
-import '../../styles/ManageAvailability.css'
+import '../../styles/availability/ManageAvailability.css'
 import { useState } from 'react'
 
 function ManageAvailability({

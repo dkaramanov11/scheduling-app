@@ -1,5 +1,5 @@
 import useKarateFact from '../hooks/useKarateFact'
-import '../styles/KarateFact.css'
+import '../styles/ai/KarateFact.css'
 
 function KarateFact() {
     const {

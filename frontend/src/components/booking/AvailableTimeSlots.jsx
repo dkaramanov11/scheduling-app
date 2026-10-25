@@ -3,7 +3,7 @@ import BookingForm from './BookingForm.jsx'
 import AvailableSessionTimes from './AvailableSessionTimes.jsx'
 import SessionSummary from './SessionSummary.jsx'
 import useAvailableTimeSlots from '../../hooks/useAvailableTimeSlots.js'
-import '../../styles/AvailableTimeSlots.css'
+import '../../styles/booking/AvailableTimeSlots.css'
 
 function AvailableTimeSlots({
                                 refreshVersion = 0,

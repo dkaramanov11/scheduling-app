@@ -1,4 +1,4 @@
-import '../styles/CoachSection.css'
+import '../styles/home/CoachSection.css'
 import TrainingIcon from './TrainingIcon'
 import coachBelt from '../assets/coach-belt.png'
 
