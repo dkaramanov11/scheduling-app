@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import CreateTimeSlotForm from '../CreateTimeSlotForm'
-import '../../styles/CreateTimeSlotModal.css'
+import '../../styles/availability/CreateTimeSlotModal.css'
 
 function CreateTimeSlotModal({ onClose, onTimeSlotCreated }) {
     const dialogRef = useRef(null)

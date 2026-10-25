@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createTimeSlot } from '../services/timeSlotService'
-import '../styles/BookingForm.css'
-import '../styles/CreateTimeSlotForm.css'
+import '../styles/booking/BookingForm.css'
+import '../styles/availability/CreateTimeSlotForm.css'
 
 const hours = Array.from({ length: 24 }, (_, index) =>
     String(index).padStart(2, '0')

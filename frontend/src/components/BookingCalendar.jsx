@@ -1,4 +1,4 @@
-import '../styles/BookingCalendar.css'
+import '../styles/shared/BookingCalendar.css'
 
 const monthFormatter = new Intl.DateTimeFormat('en-GB', {
     month: 'long',

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import Header from './components/Header'
-import AvailableTimeSlots from './components/AvailableTimeSlots'
+import AvailableTimeSlots from './components/booking/AvailableTimeSlots.jsx'
 import Hero from './components/Hero'
 import CoachSection from './components/CoachSection'
 import ManageAvailability from './components/availability/ManageAvailability'
 import './styles/App.css'
 import KarateFact from './components/KarateFact'
-import './styles/Notifications.css'
+import './styles/shared/Notifications.css'
 
 function App() {
     const [availabilityVersion, setAvailabilityVersion] = useState(0)

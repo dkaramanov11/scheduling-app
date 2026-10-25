@@ -76,137 +76,9 @@
     line-height: 1.5;
 }
 
-.session-information {
-    margin-top: 26px;
-    padding-top: 22px;
-    border-top: 1px solid var(--color-border);
-}
-
-.session-information h3 {
-    margin: 0 0 12px;
-    font-size: 18px;
-}
-
-.training-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
-}
-
-.training-tags span {
-    padding: 8px 14px;
-    border-radius: 20px;
-    background-color: #f1f0ed;
-    font-size: 12px;
-}
-
-.session-date {
-    margin: 0 0 16px;
-    font-size: 18px;
-}
-
-.availability .time-slot-list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.time-slot-button {
-    width: 100%;
-    min-height: 40px;
-    padding: 8px 4px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.time-slot-button:hover {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary-soft);
-}
-
-.time-slot-button.selected {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary);
-    color: #ffffff;
-}
-
-.time-slot-button:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-}
-
-.session-booking .booking-message {
-    margin-bottom: 16px;
-    padding: 12px;
-    border-radius: 6px;
-    background-color: var(--color-primary-soft);
-    color: #a3161b;
-    font-size: 14px;
-}
-
-.session-booking .booking-message.success {
-    background-color: #edf7ef;
-    color: #236332;
-}
-
-.session-booking .time-selection-hint {
-    margin-top: 16px;
-    font-size: 13px;
-}
-
-.session-booking .session-empty-state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 250px;
-    padding: 20px;
-    text-align: center;
-    color: var(--color-muted);
-    font-size: 14px;
-    line-height: 1.6;
-}
-
 .booking-calendar .calendar-hint {
     margin-top: 20px;
     font-size: 12px;
-}
-
-.session-details {
-    display: grid;
-    gap: 14px;
-    margin: 22px 0 0;
-}
-
-.session-details > div {
-    display: grid;
-    gap: 4px;
-}
-
-.session-details dt {
-    color: var(--color-muted);
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.session-details dd {
-    margin: 0;
-    color: var(--color-text);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-.session-information .session-selection-hint {
-    margin-top: 20px;
-    font-size: 13px;
 }
 
 @media (max-width: 1000px) {
@@ -256,9 +128,5 @@
         padding-top: 20px;
         padding-left: 0;
         border-top: 1px solid var(--color-border);
-    }
-
-    .session-booking .session-empty-state {
-        min-height: 100px;
     }
 }

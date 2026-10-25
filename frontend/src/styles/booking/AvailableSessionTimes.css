@@ -1,0 +1,78 @@
+.session-date {
+    margin: 0 0 16px;
+    font-size: 18px;
+}
+
+.availability .time-slot-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.time-slot-button {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 4px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.time-slot-button:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-soft);
+}
+
+.time-slot-button.selected {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+.time-slot-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.session-booking .booking-message {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: var(--color-primary-soft);
+    color: #a3161b;
+    font-size: 14px;
+}
+
+.session-booking .booking-message.success {
+    background-color: #edf7ef;
+    color: #236332;
+}
+
+.session-booking .time-selection-hint {
+    margin-top: 16px;
+    font-size: 13px;
+}
+
+.session-booking .session-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 20px;
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .session-booking .session-empty-state {
+        min-height: 100px;
+    }
+}
