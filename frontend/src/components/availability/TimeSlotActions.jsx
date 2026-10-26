@@ -1,51 +1,28 @@
-import { useRef, useState } from 'react'
-import { cancelBooking } from '../../services/bookingService'
-import { cancelTimeSlot } from '../../services/timeSlotService'
+import useTimeSlotActions from '../../hooks/useTimeSlotActions'
 import '../../styles/availability/TimeSlotActions.css'
 
 function TimeSlotActions({ slot, onScheduleChanged }) {
-    const [isConfirming, setIsConfirming] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [error, setError] = useState('')
-    const requestInProgress = useRef(false)
+    const {
+        canManage,
+        isBookingUnavailable,
+        isConfirming,
+        isSubmitting,
+        error,
+        actionLabel,
+        confirmationMessage,
+        startConfirmation,
+        dismissConfirmation,
+        confirmAction,
+    } = useTimeSlotActions({
+        slot,
+        onScheduleChanged,
+    })
 
-    const isBooked = slot.status === 'BOOKED'
-    const isAvailable = slot.status === 'AVAILABLE'
-
-    if (!isBooked && !isAvailable) return null
-
-    const actionLabel = isBooked ? 'Cancel booking' : 'Remove time slot'
-
-    async function handleConfirm() {
-        if (requestInProgress.current) return
-
-        requestInProgress.current = true
-        setIsSubmitting(true)
-        setError('')
-
-        try {
-            if (isBooked) {
-                await cancelBooking(slot.bookingId)
-            } else {
-                await cancelTimeSlot(slot.id)
-            }
-        } catch (error) {
-            setError(error.message || 'Unable to complete the action.')
-            setIsSubmitting(false)
-            requestInProgress.current = false
-            return
-        }
-
-        onScheduleChanged(
-            isBooked
-                ? 'Booking cancelled. The time slot is available again.'
-                : 'Time slot removed from the schedule.'
-        )
-    }
+    if (!canManage) return null
 
     return (
         <div className="time-slot-actions" aria-busy={isSubmitting}>
-            {isBooked && slot.bookingId == null ? (
+            {isBookingUnavailable ? (
                 <p role="alert">
                     Booking details are unavailable. Refresh the schedule.
                 </p>
@@ -53,27 +30,20 @@ function TimeSlotActions({ slot, onScheduleChanged }) {
                 <button
                     className="management-secondary-action"
                     type="button"
-                    onClick={() => setIsConfirming(true)}
+                    onClick={startConfirmation}
                 >
                     {actionLabel}
                 </button>
             ) : (
                 <div className="management-confirmation">
-                    <p>
-                        {isBooked
-                            ? 'Cancel this booking? The time slot will become available for booking again.'
-                            : 'Remove this time slot? It will no longer be available for booking.'}
-                    </p>
+                    <p>{confirmationMessage}</p>
 
                     <div className="management-confirmation-buttons">
                         <button
                             className="management-refresh"
                             type="button"
                             disabled={isSubmitting}
-                            onClick={() => {
-                                setIsConfirming(false)
-                                setError('')
-                            }}
+                            onClick={dismissConfirmation}
                         >
                             Keep it
                         </button>
@@ -82,7 +52,7 @@ function TimeSlotActions({ slot, onScheduleChanged }) {
                             className="management-danger-button"
                             type="button"
                             disabled={isSubmitting}
-                            onClick={handleConfirm}
+                            onClick={confirmAction}
                         >
                             {isSubmitting ? 'Processing...' : actionLabel}
                         </button>
