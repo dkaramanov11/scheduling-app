@@ -1,4 +1,6 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
+import '../../styles/availability/ManagementTimeSlots.css'
+import '../../styles/availability/SlotStatus.css'
 
 const statusLabels = {
     AVAILABLE: 'Available',

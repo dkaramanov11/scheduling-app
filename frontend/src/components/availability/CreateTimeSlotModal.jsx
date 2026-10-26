@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import CreateTimeSlotForm from '../CreateTimeSlotForm'
+import CreateTimeSlotForm from './CreateTimeSlotForm.jsx'
 import '../../styles/availability/CreateTimeSlotModal.css'
 
 function CreateTimeSlotModal({ onClose, onTimeSlotCreated }) {

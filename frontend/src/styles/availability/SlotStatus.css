@@ -1,0 +1,23 @@
+.slot-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-available {
+    background-color: #edf7ef;
+    color: #236332;
+}
+
+.status-booked {
+    background-color: #fff4df;
+    color: #805500;
+}
+
+.status-cancelled {
+    background-color: #efefef;
+    color: #666666;
+}

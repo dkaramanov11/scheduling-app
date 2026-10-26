@@ -1,0 +1,71 @@
+.management-details h3 {
+    margin: 0 0 18px;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.management-detail-list {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.management-detail-list > div {
+    display: grid;
+    gap: 4px;
+}
+
+.management-detail-list dt {
+    color: var(--color-muted);
+    font-size: 12px;
+}
+
+.management-detail-list dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.management-details .management-detail-list dd {
+    overflow-wrap: anywhere;
+}
+
+.management-details .management-booking-info {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.management-details .management-detail-note {
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    font-size: 13px;
+}
+
+.management-details .management-calendar-notice {
+    margin: 14px 0 0;
+    padding: 10px 12px;
+    border: 1px solid #efc5c7;
+    border-radius: 6px;
+    background-color: #fff2f2;
+    color: #a3161b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Position actions within the details panel */
+
+.management-actions-alignment {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -15px;
+}
+
+.management-actions-alignment .time-slot-actions {
+    margin-top: 8px;
+}
+
+.management-actions-separated {
+    border-top: 1px solid var(--color-border);
+}

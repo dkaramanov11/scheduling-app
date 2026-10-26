@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { cancelBooking } from '../../services/bookingService'
 import { cancelTimeSlot } from '../../services/timeSlotService'
+import '../../styles/availability/TimeSlotActions.css'
 
 function TimeSlotActions({ slot, onScheduleChanged }) {
     const [isConfirming, setIsConfirming] = useState(false)

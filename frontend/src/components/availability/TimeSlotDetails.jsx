@@ -1,5 +1,7 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
 import TimeSlotActions from './TimeSlotActions'
+import '../../styles/availability/TimeSlotDetails.css'
+import '../../styles/availability/SlotStatus.css'
 
 const statusLabels = {
     AVAILABLE: 'Available',

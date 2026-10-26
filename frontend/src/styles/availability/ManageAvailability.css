@@ -46,6 +46,28 @@
     gap: 12px;
 }
 
+.management-add-button {
+    min-height: 38px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: var(--color-primary);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.management-add-button:hover {
+    background-color: var(--color-primary-soft);
+}
+
+.management-add-button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
 /* Panel layout */
 
 .management-panel {
@@ -68,13 +90,6 @@
 .management-panel > * + * {
     padding-left: 24px;
     border-left: 1px solid var(--color-border);
-}
-
-.management-times h3,
-.management-details h3 {
-    margin: 0 0 18px;
-    font-size: 18px;
-    line-height: 1.4;
 }
 
 .management-panel .calendar-hint {
@@ -100,340 +115,6 @@
 .management-success {
     background-color: #edf7ef;
     color: #236332;
-}
-
-/* Filters */
-
-.management-filters {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-bottom: 16px;
-}
-
-.management-filter label {
-    padding-right: 7px;
-    flex-shrink: 0;
-    color: var(--color-muted);
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.management-filter select {
-    width: 112px;
-    min-width: 0;
-    min-height: 34px;
-    padding: 6px 8px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    font: inherit;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.management-filter select:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-/* Standalone status filter */
-
-.management-status-filter {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.management-status-filter label {
-    flex-shrink: 0;
-    color: var(--color-muted);
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.management-status-filter select {
-    width: 145px;
-    min-height: 34px;
-    padding: 6px 10px;
-    font-size: 12px;
-}
-
-/* Time slot list */
-
-.management-slot-list {
-    display: grid;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.management-slot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
-    min-height: 58px;
-    padding: 12px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    text-align: left;
-    cursor: pointer;
-}
-
-.management-slot:hover,
-.management-slot.selected {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary-soft);
-}
-
-.management-slot:focus-visible {
-    outline: 3px solid var(--color-primary);
-    outline-offset: 3px;
-}
-
-.management-slot-time {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-/* Status badges */
-
-.slot-status {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.status-available {
-    background-color: #edf7ef;
-    color: #236332;
-}
-
-.status-booked {
-    background-color: #fff4df;
-    color: #805500;
-}
-
-.status-cancelled {
-    background-color: #efefef;
-    color: #666666;
-}
-
-/* Training and booking details */
-
-.management-detail-list {
-    display: grid;
-    gap: 16px;
-    margin: 20px 0;
-}
-
-.management-detail-list > div {
-    display: grid;
-    gap: 4px;
-}
-
-.management-detail-list dt {
-    color: var(--color-muted);
-    font-size: 12px;
-}
-
-.management-detail-list dd {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-.management-details .management-detail-list dd {
-    overflow-wrap: anywhere;
-}
-
-.management-details .management-booking-info {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.management-details .management-detail-note {
-    padding-top: 16px;
-    border-top: 1px solid var(--color-border);
-    font-size: 13px;
-}
-
-/* Google Calendar conflicts */
-
-.management-slot.calendar-conflict {
-    background-color: #f3f3f3;
-    border-color: #d9d9d9;
-    color: #666666;
-}
-
-.management-slot.calendar-conflict:hover {
-    background-color: #eaeaea;
-    border-color: #999999;
-}
-
-.management-slot.calendar-conflict.selected {
-    background-color: #eaeaea;
-    border-color: var(--color-primary);
-}
-
-.management-calendar-conflict {
-    flex-basis: 100%;
-    color: #a3161b;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.5;
-}
-
-.management-details .management-calendar-notice {
-    margin: 14px 0 0;
-    padding: 10px 12px;
-    border: 1px solid #efc5c7;
-    border-radius: 6px;
-    background-color: #fff2f2;
-    color: #a3161b;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-/* Action layout and confirmation */
-
-.time-slot-actions {
-    margin-top: 20px;
-}
-
-.management-actions-alignment {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -15px;
-}
-
-.management-actions-alignment .time-slot-actions {
-    margin-top: 8px;
-}
-
-.management-actions-separated {
-    border-top: 1px solid var(--color-border);
-}
-
-.management-confirmation {
-    padding: 14px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-}
-
-.management-confirmation-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 16px;
-}
-
-.time-slot-actions .management-action-error {
-    margin-top: 12px;
-    color: #a3161b;
-}
-
-/* Buttons */
-
-.management-add-button {
-    min-height: 38px;
-    padding: 8px 16px;
-    border: 1px solid var(--color-primary);
-    border-radius: 6px;
-    background-color: #ffffff;
-    color: var(--color-primary);
-    font: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.management-add-button:hover {
-    background-color: var(--color-primary-soft);
-}
-
-.management-secondary-action {
-    min-height: 34px;
-    padding: 6px 12px;
-    border: 1px solid #e4cbcd;
-    border-radius: 6px;
-    background-color: transparent;
-    color: var(--color-primary);
-    font: inherit;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.management-secondary-action:hover:not(:disabled) {
-    border-color: var(--color-primary);
-    background-color: #fcf2f3;
-}
-
-.management-secondary-action:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.management-add-button:focus-visible,
-.management-secondary-action:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-}
-
-.management-danger-button {
-    min-height: 40px;
-    padding: 10px 16px;
-    border: 1px solid var(--color-primary);
-    border-radius: 6px;
-    background-color: var(--color-primary);
-    color: #ffffff;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.management-danger-button:hover:not(:disabled) {
-    background-color: var(--color-primary-hover);
-}
-
-.management-danger-button:disabled {
-    opacity: 0.65;
-    cursor: wait;
-}
-
-.management-refresh {
-    min-height: 40px;
-    padding: 10px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.management-refresh:hover:not(:disabled) {
-    border-color: var(--color-primary);
-}
-
-.management-refresh:disabled {
-    opacity: 0.6;
-    cursor: wait;
 }
 
 /* Responsive layout */
@@ -469,20 +150,5 @@
         padding-left: 0;
         border-top: 1px solid var(--color-border);
         border-left: none;
-    }
-
-    .management-filters {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .management-filter {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .management-filter select {
-        width: 100%;
-        min-height: 40px;
     }
 }
