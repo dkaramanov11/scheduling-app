@@ -1,23 +1,12 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
 import TimeSlotActions from './TimeSlotActions'
-
-const statusLabels = {
-    AVAILABLE: 'Available',
-    BOOKED: 'Booked',
-    CANCELLED: 'Cancelled',
-}
-
-const trainingFocusLabels = {
-    KIHON: 'Kihon',
-    KATA: 'Kata',
-    KUMITE: 'Kumite',
-}
-
-const experienceLevelLabels = {
-    BEGINNER: 'Beginner',
-    INTERMEDIATE: 'Intermediate',
-    ADVANCED: 'Advanced',
-}
+import '../../styles/availability/TimeSlotDetails.css'
+import '../../styles/availability/SlotStatus.css'
+import {
+    TIME_SLOT_STATUS_LABELS,
+    TRAINING_FOCUS_LABELS,
+    EXPERIENCE_LEVEL_LABELS,
+} from '../../constants/training'
 
 function TimeSlotDetails({ slot, onScheduleChanged }) {
     const isBooked = slot?.status === 'BOOKED'
@@ -35,7 +24,7 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                     <span
                         className={`slot-status status-${slot.status.toLowerCase()}`}
                     >
-                        {statusLabels[slot.status] ?? slot.status}
+                        {TIME_SLOT_STATUS_LABELS[slot.status] ?? slot.status}
                     </span>
 
                     {hasCalendarConflict && (
@@ -61,7 +50,7 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                                 <div>
                                     <dt>Training focus</dt>
                                     <dd>
-                                        {trainingFocusLabels[booking.trainingFocus]
+                                        {TRAINING_FOCUS_LABELS[booking.trainingFocus]
                                             ?? booking.trainingFocus
                                             ?? 'Not specified'}
                                     </dd>
@@ -70,7 +59,7 @@ function TimeSlotDetails({ slot, onScheduleChanged }) {
                                 <div>
                                     <dt>Experience level</dt>
                                     <dd>
-                                        {experienceLevelLabels[booking.experienceLevel]
+                                        {EXPERIENCE_LEVEL_LABELS[booking.experienceLevel]
                                             ?? booking.experienceLevel
                                             ?? 'Not specified'}
                                     </dd>

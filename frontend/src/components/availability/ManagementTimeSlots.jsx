@@ -1,10 +1,7 @@
 import { formatDate, formatTimeRange } from '../../utils/dateTime'
-
-const statusLabels = {
-    AVAILABLE: 'Available',
-    BOOKED: 'Booked',
-    CANCELLED: 'Cancelled',
-}
+import '../../styles/availability/ManagementTimeSlots.css'
+import '../../styles/availability/SlotStatus.css'
+import { TIME_SLOT_STATUS_LABELS } from '../../constants/training'
 
 const emptyMessages = {
     ALL: 'No time slots on this date.',
@@ -106,7 +103,7 @@ function ManagementTimeSlots({
                                     <span
                                         className={`slot-status status-${slot.status.toLowerCase()}`}
                                     >
-                                        {statusLabels[slot.status] ?? slot.status}
+                                        {TIME_SLOT_STATUS_LABELS[slot.status] ?? slot.status}
                                     </span>
 
                                     {hasConflict && (

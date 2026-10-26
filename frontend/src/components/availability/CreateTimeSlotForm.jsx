@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import { createTimeSlot } from '../services/timeSlotService'
-import '../styles/booking/BookingForm.css'
-import '../styles/availability/CreateTimeSlotForm.css'
+import useCreateTimeSlotForm from '../../hooks/useCreateTimeSlotForm'
+import '../../styles/booking/BookingForm.css'
+import '../../styles/availability/CreateTimeSlotForm.css'
 
 const hours = Array.from({ length: 24 }, (_, index) =>
     String(index).padStart(2, '0')
@@ -12,60 +11,21 @@ const minutes = Array.from({ length: 12 }, (_, index) =>
 )
 
 function CreateTimeSlotForm({ onTimeSlotCreated }) {
-    const [date, setDate] = useState('')
-    const [hour, setHour] = useState('')
-    const [minute, setMinute] = useState('00')
-    const [duration, setDuration] = useState('30')
-    const [customDuration, setCustomDuration] = useState('')
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [error, setError] = useState('')
-
-    const durationMinutes = Number(
-        duration === 'custom' ? customDuration : duration
-    )
-
-    async function handleSubmit(event) {
-        event.preventDefault()
-
-        if (isSubmitting) return
-
-        if (!date || !hour || !minute) {
-            setError('Please select a date and start time.')
-            return
-        }
-
-        if (
-            !Number.isInteger(durationMinutes) ||
-            durationMinutes < 1
-        ) {
-            setError('Please enter a valid duration in whole minutes.')
-            return
-        }
-
-        setIsSubmitting(true)
-        setError('')
-
-        try {
-            await createTimeSlot({
-                startAt: `${date}T${hour}:${minute}:00`,
-                durationMinutes,
-            })
-        } catch (error) {
-            setError(
-                error.status
-                    ? error.message
-                    : 'Unable to connect to the server. Please try again.'
-            )
-            setIsSubmitting(false)
-            return
-        }
-
-        setDate('')
-        setHour('')
-        setMinute('00')
-        setIsSubmitting(false)
-        onTimeSlotCreated()
-    }
+    const {
+        date,
+        hour,
+        minute,
+        duration,
+        customDuration,
+        isSubmitting,
+        error,
+        setDate,
+        setHour,
+        setMinute,
+        setDuration,
+        setCustomDuration,
+        handleSubmit,
+    } = useCreateTimeSlotForm({ onTimeSlotCreated })
 
     return (
         <section
@@ -82,6 +42,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
             >
                 <div className="form-field">
                     <label htmlFor="slotDate">Date</label>
+
                     <input
                         id="slotDate"
                         name="slotDate"
@@ -99,6 +60,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                     <div className="slot-time-controls">
                         <div className="form-field">
                             <label htmlFor="slotHour">Hour</label>
+
                             <select
                                 id="slotHour"
                                 name="slotHour"
@@ -108,6 +70,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                                 required
                             >
                                 <option value="">Select</option>
+
                                 {hours.map((value) => (
                                     <option key={value} value={value}>
                                         {value}
@@ -116,12 +79,16 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                             </select>
                         </div>
 
-                        <span className="slot-time-separator" aria-hidden="true">
+                        <span
+                            className="slot-time-separator"
+                            aria-hidden="true"
+                        >
                             :
                         </span>
 
                         <div className="form-field">
                             <label htmlFor="slotMinute">Minute</label>
+
                             <select
                                 id="slotMinute"
                                 name="slotMinute"
@@ -146,6 +113,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
 
                 <div className="form-field">
                     <label htmlFor="slotDuration">Duration</label>
+
                     <select
                         id="slotDuration"
                         name="slotDuration"
@@ -166,6 +134,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                         <label htmlFor="customDuration">
                             Duration in minutes
                         </label>
+
                         <input
                             id="customDuration"
                             name="customDuration"
