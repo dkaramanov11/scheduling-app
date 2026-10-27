@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import Header from './components/Header'
+import Header from './components/layout/Header.jsx'
 import AvailableTimeSlots from './components/booking/AvailableTimeSlots.jsx'
-import Hero from './components/Hero'
-import CoachSection from './components/CoachSection'
+import Hero from './components/home/Hero.jsx'
+import CoachSection from './components/home/CoachSection.jsx'
 import ManageAvailability from './components/availability/ManageAvailability'
 import './styles/App.css'
-import KarateFact from './components/KarateFact'
+import KarateFact from './components/ai/KarateFact.jsx'
 import './styles/shared/Notifications.css'
 
 function App() {

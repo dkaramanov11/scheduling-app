@@ -1,5 +1,5 @@
-import useTimeSlotActions from '../../hooks/useTimeSlotActions'
-import '../../styles/availability/TimeSlotActions.css'
+import useTimeSlotActions from '../../../hooks/useTimeSlotActions.js'
+import '../../../styles/availability/TimeSlotActions.css'
 
 function TimeSlotActions({ slot, onScheduleChanged }) {
     const {

@@ -1,24 +1,7 @@
-import '../styles/home/CoachSection.css'
-import TrainingIcon from './TrainingIcon'
-import coachBelt from '../assets/coach-belt.png'
-
-const trainingAreas = [
-    {
-        title: 'Kihon',
-        description:
-            'Build strong fundamentals through focused, repeatable technique.',
-    },
-    {
-        title: 'Kata',
-        description:
-            'Refine precision, rhythm, and control through traditional forms.',
-    },
-    {
-        title: 'Kumite',
-        description:
-            'Develop timing, distance, and practical application in a controlled environment.',
-    },
-]
+import '../../styles/home/CoachSection.css'
+import TrainingIcon from './TrainingIcon.jsx'
+import coachBelt from '../../assets/coach-belt.png'
+import { TRAINING_AREAS } from '../../constants/trainingAreas.js'
 
 function CoachSection() {
     return (
@@ -57,7 +40,7 @@ function CoachSection() {
                 </p>
 
                 <div className="training-cards">
-                    {trainingAreas.map((area) => (
+                    {TRAINING_AREAS.map((area) => (
                         <article className="training-card" key={area.title}>
                             <TrainingIcon type={area.title} />
 

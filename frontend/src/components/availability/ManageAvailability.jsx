@@ -1,7 +1,7 @@
-import BookingCalendar from '../BookingCalendar'
-import CreateTimeSlotModal from './CreateTimeSlotModal'
-import ManagementTimeSlots from './ManagementTimeSlots'
-import TimeSlotDetails from './TimeSlotDetails'
+import BookingCalendar from '../shared/BookingCalendar.jsx'
+import CreateTimeSlotModal from './create/CreateTimeSlotModal.jsx'
+import ManagementTimeSlots from './schedule/ManagementTimeSlots.jsx'
+import TimeSlotDetails from './schedule/TimeSlotDetails.jsx'
 import useManageAvailability from '../../hooks/useManageAvailability'
 import '../../styles/availability/ManageAvailability.css'
 import { useState } from 'react'
@@ -30,17 +30,15 @@ function ManageAvailability({
         changeFocusFilter,
     } = useManageAvailability(refreshVersion)
 
-    function handleTimeSlotCreated() {
-        setIsCreateModalOpen(false)
-        setActionMessage('Time slot created successfully.')
-        refreshSchedule()
-        onAvailabilityChanged()
-    }
-
     function handleScheduleChanged(message) {
         setActionMessage(message)
         refreshSchedule()
         onAvailabilityChanged()
+    }
+
+    function handleTimeSlotCreated() {
+        setIsCreateModalOpen(false)
+        handleScheduleChanged('Time slot created successfully.')
     }
 
     return (

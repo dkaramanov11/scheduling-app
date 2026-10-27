@@ -1,4 +1,4 @@
-import BookingCalendar from '../BookingCalendar.jsx'
+import BookingCalendar from '../shared/BookingCalendar.jsx'
 import BookingForm from './BookingForm.jsx'
 import AvailableSessionTimes from './AvailableSessionTimes.jsx'
 import SessionSummary from './SessionSummary.jsx'

@@ -1,5 +1,5 @@
-import karateHero from '../assets/karate-hero.png'
-import '../styles/home/Hero.css'
+import karateHero from '../../assets/karate-hero.png'
+import '../../styles/home/Hero.css'
 
 function Hero() {
     return (

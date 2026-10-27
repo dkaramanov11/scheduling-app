@@ -1,17 +1,10 @@
-import '../styles/shared/BookingCalendar.css'
-
-const monthFormatter = new Intl.DateTimeFormat('en-GB', {
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC',
-})
-
-const dayFormatter = new Intl.DateTimeFormat('en-GB', {
-    dateStyle: 'full',
-    timeZone: 'UTC',
-})
-
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+import {
+    WEEKDAYS,
+    monthFormatter,
+    dayFormatter,
+} from '../../constants/calendar.js'
+import { getCalendarDays, shiftMonth } from '../../utils/calendar.js'
+import '../../styles/shared/BookingCalendar.css'
 
 function BookingCalendar({
                              month,
@@ -21,22 +14,10 @@ function BookingCalendar({
                              onDateSelect,
                              hint = 'Select a date with available sessions.',
                          }) {
-    const [year, monthNumber] = month.split('-').map(Number)
-    const firstDay = new Date(Date.UTC(year, monthNumber - 1, 1))
-    const offset = (firstDay.getUTCDay() + 6) % 7
-
-    const daysInMonth = new Date(
-        Date.UTC(year, monthNumber, 0)
-    ).getUTCDate()
-
-    const cellCount = Math.ceil((offset + daysInMonth) / 7) * 7
+    const { firstDay, days } = getCalendarDays(month)
 
     function changeMonth(amount) {
-        const nextMonth = new Date(
-            Date.UTC(year, monthNumber - 1 + amount, 1)
-        )
-
-        onMonthChange(nextMonth.toISOString().slice(0, 7))
+        onMonthChange(shiftMonth(month, amount))
     }
 
     return (
@@ -64,20 +45,16 @@ function BookingCalendar({
             </div>
 
             <div className="calendar-weekdays" aria-hidden="true">
-                {weekdays.map((day) => (
+                {WEEKDAYS.map((day) => (
                     <span key={day}>{day}</span>
                 ))}
             </div>
 
             <div className="calendar-days">
-                {Array.from({ length: cellCount }, (_, index) => {
-                    const date = new Date(
-                        Date.UTC(year, monthNumber - 1, index - offset + 1)
-                    )
+                {days.map(({ date, dateKey, isCurrentMonth }) => {
+                    const isAvailable =
+                        isCurrentMonth && availableDates.has(dateKey)
 
-                    const dateKey = date.toISOString().slice(0, 10)
-                    const isCurrentMonth = date.getUTCMonth() === monthNumber - 1
-                    const isAvailable = isCurrentMonth && availableDates.has(dateKey)
                     const isSelected = selectedDate === dateKey
 
                     return (
@@ -85,7 +62,9 @@ function BookingCalendar({
                             key={dateKey}
                             type="button"
                             className={
-                                isSelected ? 'calendar-day selected' : 'calendar-day'
+                                isSelected
+                                    ? 'calendar-day selected'
+                                    : 'calendar-day'
                             }
                             disabled={!isAvailable}
                             aria-label={dayFormatter.format(date)}

@@ -1,14 +1,8 @@
-import { formatDate, formatTimeRange } from '../../utils/dateTime'
-import '../../styles/availability/ManagementTimeSlots.css'
-import '../../styles/availability/SlotStatus.css'
-import { TIME_SLOT_STATUS_LABELS } from '../../constants/training'
-
-const emptyMessages = {
-    ALL: 'No time slots on this date.',
-    AVAILABLE: 'No available sessions on this date.',
-    BOOKED: 'No booked sessions on this date.',
-    CANCELLED: 'No cancelled time slots on this date.',
-}
+import { formatDate, formatTimeRange } from '../../../utils/dateTime.js'
+import '../../../styles/availability/ManagementTimeSlots.css'
+import '../../../styles/availability/SlotStatus.css'
+import { TIME_SLOT_STATUS_LABELS } from '../../../constants/training.js'
+import { EMPTY_SCHEDULE_MESSAGES } from '../../../constants/managementMessages.js'
 
 function ManagementTimeSlots({
                                  selectedDate,
@@ -74,7 +68,7 @@ function ManagementTimeSlots({
                 <p role="status">
                     {focusFilter !== 'ALL'
                         ? 'No sessions match these filters on this date.'
-                        : emptyMessages[statusFilter]}
+                        : EMPTY_SCHEDULE_MESSAGES[statusFilter]}
                 </p>
             ) : (
                 <ul className="management-slot-list">

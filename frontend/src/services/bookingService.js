@@ -1,3 +1,5 @@
+import { throwIfError } from './apiErrors'
+
 export async function createBooking(booking) {
     const response = await fetch('/api/bookings', {
         method: 'POST',
@@ -7,18 +9,10 @@ export async function createBooking(booking) {
         body: JSON.stringify(booking),
     })
 
-    if (!response.ok) {
-        const problem = await response.json().catch(() => null)
-
-        const error = new Error(
-            problem?.detail || 'Unable to book the session. Please try again.'
-        )
-
-        error.status = response.status
-        error.errors = problem?.errors
-
-        throw error
-    }
+    await throwIfError(
+        response,
+        'Unable to book the session. Please try again.'
+    )
 
     return response.json()
 }
@@ -28,15 +22,8 @@ export async function cancelBooking(bookingId) {
         method: 'DELETE',
     })
 
-    if (!response.ok) {
-        const problem = await response.json().catch(() => null)
-
-        const error = new Error(
-            problem?.detail ||
-            'Unable to cancel the booking. Please try again.'
-        )
-
-        error.status = response.status
-        throw error
-    }
+    await throwIfError(
+        response,
+        'Unable to cancel the booking. Please try again.'
+    )
 }
