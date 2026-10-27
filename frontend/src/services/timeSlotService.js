@@ -1,13 +1,16 @@
-export async function getAvailableTimeSlots(signal) {
+import { throwIfError } from './apiErrors'
 
+export async function getAvailableTimeSlots(signal) {
     const response = await fetch('/api/time-slots', { signal })
 
+    // Оваа функција ја задржува постојната порака за грешка.
     if (!response.ok) {
-        throw new Error('Unable to load available time slots. Please try again.')
+        throw new Error(
+            'Unable to load available time slots. Please try again.'
+        )
     }
 
     return response.json()
-
 }
 
 export async function createTimeSlot(timeSlot) {
@@ -19,18 +22,10 @@ export async function createTimeSlot(timeSlot) {
         body: JSON.stringify(timeSlot),
     })
 
-    if (!response.ok) {
-        const problem = await response.json().catch(() => null)
-
-        const error = new Error(
-            problem?.detail || 'Unable to create the time slot. Please try again.'
-        )
-
-        error.status = response.status
-        error.errors = problem?.errors
-
-        throw error
-    }
+    await throwIfError(
+        response,
+        'Unable to create the time slot. Please try again.'
+    )
 
     return response.json()
 }
@@ -38,18 +33,10 @@ export async function createTimeSlot(timeSlot) {
 export async function getManageTimeSlots(signal) {
     const response = await fetch('/api/time-slots/manage', { signal })
 
-    if (!response.ok) {
-        const problem = await response.json().catch(() => null)
-
-        const error = new Error(
-            problem?.detail ||
-            'Unable to load the training schedule. Please try again.'
-        )
-
-        error.status = response.status
-
-        throw error
-    }
+    await throwIfError(
+        response,
+        'Unable to load the training schedule. Please try again.'
+    )
 
     return response.json()
 }
@@ -59,15 +46,8 @@ export async function cancelTimeSlot(timeSlotId) {
         method: 'PATCH',
     })
 
-    if (!response.ok) {
-        const problem = await response.json().catch(() => null)
-
-        const error = new Error(
-            problem?.detail ||
-            'Unable to remove the time slot. Please try again.'
-        )
-
-        error.status = response.status
-        throw error
-    }
+    await throwIfError(
+        response,
+        'Unable to remove the time slot. Please try again.'
+    )
 }
