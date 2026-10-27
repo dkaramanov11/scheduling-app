@@ -1,9 +1,10 @@
-import '../styles/shared/BookingCalendar.css'
 import {
     WEEKDAYS,
     monthFormatter,
     dayFormatter,
 } from '../constants/calendar'
+import { getCalendarDays, shiftMonth } from '../utils/calendar'
+import '../styles/shared/BookingCalendar.css'
 
 function BookingCalendar({
                              month,
@@ -13,22 +14,10 @@ function BookingCalendar({
                              onDateSelect,
                              hint = 'Select a date with available sessions.',
                          }) {
-    const [year, monthNumber] = month.split('-').map(Number)
-    const firstDay = new Date(Date.UTC(year, monthNumber - 1, 1))
-    const offset = (firstDay.getUTCDay() + 6) % 7
-
-    const daysInMonth = new Date(
-        Date.UTC(year, monthNumber, 0)
-    ).getUTCDate()
-
-    const cellCount = Math.ceil((offset + daysInMonth) / 7) * 7
+    const { firstDay, days } = getCalendarDays(month)
 
     function changeMonth(amount) {
-        const nextMonth = new Date(
-            Date.UTC(year, monthNumber - 1 + amount, 1)
-        )
-
-        onMonthChange(nextMonth.toISOString().slice(0, 7))
+        onMonthChange(shiftMonth(month, amount))
     }
 
     return (
@@ -62,14 +51,10 @@ function BookingCalendar({
             </div>
 
             <div className="calendar-days">
-                {Array.from({ length: cellCount }, (_, index) => {
-                    const date = new Date(
-                        Date.UTC(year, monthNumber - 1, index - offset + 1)
-                    )
+                {days.map(({ date, dateKey, isCurrentMonth }) => {
+                    const isAvailable =
+                        isCurrentMonth && availableDates.has(dateKey)
 
-                    const dateKey = date.toISOString().slice(0, 10)
-                    const isCurrentMonth = date.getUTCMonth() === monthNumber - 1
-                    const isAvailable = isCurrentMonth && availableDates.has(dateKey)
                     const isSelected = selectedDate === dateKey
 
                     return (
@@ -77,7 +62,9 @@ function BookingCalendar({
                             key={dateKey}
                             type="button"
                             className={
-                                isSelected ? 'calendar-day selected' : 'calendar-day'
+                                isSelected
+                                    ? 'calendar-day selected'
+                                    : 'calendar-day'
                             }
                             disabled={!isAvailable}
                             aria-label={dayFormatter.format(date)}
