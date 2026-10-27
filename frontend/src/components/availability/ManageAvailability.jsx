@@ -30,17 +30,15 @@ function ManageAvailability({
         changeFocusFilter,
     } = useManageAvailability(refreshVersion)
 
-    function handleTimeSlotCreated() {
-        setIsCreateModalOpen(false)
-        setActionMessage('Time slot created successfully.')
-        refreshSchedule()
-        onAvailabilityChanged()
-    }
-
     function handleScheduleChanged(message) {
         setActionMessage(message)
         refreshSchedule()
         onAvailabilityChanged()
+    }
+
+    function handleTimeSlotCreated() {
+        setIsCreateModalOpen(false)
+        handleScheduleChanged('Time slot created successfully.')
     }
 
     return (
