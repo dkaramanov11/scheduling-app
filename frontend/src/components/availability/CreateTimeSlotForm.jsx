@@ -1,14 +1,7 @@
 import useCreateTimeSlotForm from '../../hooks/useCreateTimeSlotForm'
 import '../../styles/booking/BookingForm.css'
 import '../../styles/availability/CreateTimeSlotForm.css'
-
-const hours = Array.from({ length: 24 }, (_, index) =>
-    String(index).padStart(2, '0')
-)
-
-const minutes = Array.from({ length: 12 }, (_, index) =>
-    String(index * 5).padStart(2, '0')
-)
+import { HOURS, MINUTES } from '../../constants/timeSlotOptions'
 
 function CreateTimeSlotForm({ onTimeSlotCreated }) {
     const {
@@ -71,7 +64,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                             >
                                 <option value="">Select</option>
 
-                                {hours.map((value) => (
+                                {HOURS.map((value) => (
                                     <option key={value} value={value}>
                                         {value}
                                     </option>
@@ -97,7 +90,7 @@ function CreateTimeSlotForm({ onTimeSlotCreated }) {
                                 disabled={isSubmitting}
                                 required
                             >
-                                {minutes.map((value) => (
+                                {MINUTES.map((value) => (
                                     <option key={value} value={value}>
                                         {value}
                                     </option>
