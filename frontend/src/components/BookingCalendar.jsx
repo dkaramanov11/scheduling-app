@@ -1,17 +1,9 @@
 import '../styles/shared/BookingCalendar.css'
-
-const monthFormatter = new Intl.DateTimeFormat('en-GB', {
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC',
-})
-
-const dayFormatter = new Intl.DateTimeFormat('en-GB', {
-    dateStyle: 'full',
-    timeZone: 'UTC',
-})
-
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+import {
+    WEEKDAYS,
+    monthFormatter,
+    dayFormatter,
+} from '../constants/calendar'
 
 function BookingCalendar({
                              month,
@@ -64,7 +56,7 @@ function BookingCalendar({
             </div>
 
             <div className="calendar-weekdays" aria-hidden="true">
-                {weekdays.map((day) => (
+                {WEEKDAYS.map((day) => (
                     <span key={day}>{day}</span>
                 ))}
             </div>
