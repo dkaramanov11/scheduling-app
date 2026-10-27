@@ -1,25 +1,9 @@
-import { useEffect, useRef } from 'react'
+import useModalDialog from '../../hooks/useModalDialog'
 import CreateTimeSlotForm from './CreateTimeSlotForm.jsx'
 import '../../styles/availability/CreateTimeSlotModal.css'
 
 function CreateTimeSlotModal({ onClose, onTimeSlotCreated }) {
-    const dialogRef = useRef(null)
-
-    useEffect(() => {
-        const dialog = dialogRef.current
-        const previousFocus = document.activeElement
-
-        dialog.showModal()
-
-        const previousOverflow = document.body.style.overflow
-        document.body.style.overflow = 'hidden'
-
-        return () => {
-            dialog.close()
-            document.body.style.overflow = previousOverflow
-            previousFocus?.focus()
-        }
-    }, [])
+    const dialogRef = useModalDialog()
 
     return (
         <dialog
