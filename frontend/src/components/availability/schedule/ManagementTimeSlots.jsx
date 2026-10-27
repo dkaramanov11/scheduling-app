@@ -1,8 +1,8 @@
-import { formatDate, formatTimeRange } from '../../utils/dateTime'
-import '../../styles/availability/ManagementTimeSlots.css'
-import '../../styles/availability/SlotStatus.css'
-import { TIME_SLOT_STATUS_LABELS } from '../../constants/training'
-import { EMPTY_SCHEDULE_MESSAGES } from '../../constants/managementMessages'
+import { formatDate, formatTimeRange } from '../../../utils/dateTime.js'
+import '../../../styles/availability/ManagementTimeSlots.css'
+import '../../../styles/availability/SlotStatus.css'
+import { TIME_SLOT_STATUS_LABELS } from '../../../constants/training.js'
+import { EMPTY_SCHEDULE_MESSAGES } from '../../../constants/managementMessages.js'
 
 function ManagementTimeSlots({
                                  selectedDate,

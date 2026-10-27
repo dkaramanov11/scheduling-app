@@ -1,12 +1,12 @@
-import { formatDate, formatTimeRange } from '../../utils/dateTime'
-import TimeSlotActions from './TimeSlotActions'
-import '../../styles/availability/TimeSlotDetails.css'
-import '../../styles/availability/SlotStatus.css'
+import { formatDate, formatTimeRange } from '../../../utils/dateTime.js'
+import TimeSlotActions from './TimeSlotActions.jsx'
+import '../../../styles/availability/TimeSlotDetails.css'
+import '../../../styles/availability/SlotStatus.css'
 import {
     TIME_SLOT_STATUS_LABELS,
     TRAINING_FOCUS_LABELS,
     EXPERIENCE_LEVEL_LABELS,
-} from '../../constants/training'
+} from '../../../constants/training.js'
 
 function TimeSlotDetails({ slot, onScheduleChanged }) {
     const isBooked = slot?.status === 'BOOKED'

@@ -1,7 +1,7 @@
-import useCreateTimeSlotForm from '../../hooks/useCreateTimeSlotForm'
-import '../../styles/booking/BookingForm.css'
-import '../../styles/availability/CreateTimeSlotForm.css'
-import { HOURS, MINUTES } from '../../constants/timeSlotOptions'
+import useCreateTimeSlotForm from '../../../hooks/useCreateTimeSlotForm.js'
+import '../../../styles/booking/BookingForm.css'
+import '../../../styles/availability/CreateTimeSlotForm.css'
+import { HOURS, MINUTES } from '../../../constants/timeSlotOptions.js'
 
 function CreateTimeSlotForm({ onTimeSlotCreated }) {
     const {

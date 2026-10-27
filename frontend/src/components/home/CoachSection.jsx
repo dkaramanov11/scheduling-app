@@ -1,7 +1,7 @@
-import '../styles/home/CoachSection.css'
-import TrainingIcon from './TrainingIcon'
-import coachBelt from '../assets/coach-belt.png'
-import { TRAINING_AREAS } from '../constants/trainingAreas'
+import '../../styles/home/CoachSection.css'
+import TrainingIcon from './TrainingIcon.jsx'
+import coachBelt from '../../assets/coach-belt.png'
+import { TRAINING_AREAS } from '../../constants/trainingAreas.js'
 
 function CoachSection() {
     return (

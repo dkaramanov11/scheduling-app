@@ -1,6 +1,6 @@
-import useModalDialog from '../../hooks/useModalDialog'
+import useModalDialog from '../../../hooks/useModalDialog.js'
 import CreateTimeSlotForm from './CreateTimeSlotForm.jsx'
-import '../../styles/availability/CreateTimeSlotModal.css'
+import '../../../styles/availability/CreateTimeSlotModal.css'
 
 function CreateTimeSlotModal({ onClose, onTimeSlotCreated }) {
     const dialogRef = useModalDialog()

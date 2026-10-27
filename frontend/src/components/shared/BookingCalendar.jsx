@@ -2,9 +2,9 @@ import {
     WEEKDAYS,
     monthFormatter,
     dayFormatter,
-} from '../constants/calendar'
-import { getCalendarDays, shiftMonth } from '../utils/calendar'
-import '../styles/shared/BookingCalendar.css'
+} from '../../constants/calendar.js'
+import { getCalendarDays, shiftMonth } from '../../utils/calendar.js'
+import '../../styles/shared/BookingCalendar.css'
 
 function BookingCalendar({
                              month,
